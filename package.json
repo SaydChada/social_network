@@ -1,7 +1,7 @@
 {
   "name": "game",
   "version": "1.0.0",
-  "description": "Ifocop project multiplayer game",
+  "description": "Ifocop project social network",
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.16.1",
