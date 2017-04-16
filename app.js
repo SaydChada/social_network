@@ -20,6 +20,7 @@ function init(routing, localConf){
     const handlebars     = require('express-handlebars');
     const MongoStore     = require('connect-mongo')(expressSession);
     const mongoose       = require('mongoose');
+    mongoose.Promise = global.Promise;
     const app            = express();
 
 // Express config
@@ -82,13 +83,6 @@ function init(routing, localConf){
 
         console.log('--- SERVER START --- AT',localConf.server.port, localConf.server.host );
         routing(app);
-        app.socketIo = app.socketIoStart(this, app);
-
-        // Share session with socket
-        app.socketIo.use(function(socket, next) {
-            session(socket.handshake, {}, next);
-        });
-
     });
 
 

@@ -8,7 +8,7 @@ module.exports = {
     host            : 'localhost',
     port            : '27017',
     protocol        : 'mongodb',
-    database        : 'game',
+    database        : 'social',
     url             : function(){
         return this.protocol + '://' + this.host +':' + this.port + '/' + this.database;
     }
