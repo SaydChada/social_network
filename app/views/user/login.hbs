@@ -1,1 +1,35 @@
-{{> _login_form}}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+
+        <div class="panel panel-success">
+
+            <div class="panel-heading">
+                <div class="panel-title text-center">{{ formTitle }}</div>
+            </div>
+            <div class="panel-body">
+                <form role="form" method="post" action="{{ url }}" class="form-horizontal">
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" name="username" placeholder="username" autofocus="" class="form-control"/>
+                    </div>
+                    <br>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input type="password" name="password" placeholder="password" class="form-control"/>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+
+                        <div class="col-xs-4 pull-right">
+                            <button type="submit" class="btn btn-success">Connexion</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
