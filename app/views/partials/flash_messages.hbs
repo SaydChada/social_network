@@ -1,0 +1,7 @@
+{{#if flashMessages }}
+    {{#each flashMessages }}
+        <div class="floating_alert alert-{{ type }} fade in" onclick="$(this).fadeOut()" style="cursor:pointer">
+            <span>{{ message }}</span>
+        </div>
+    {{/each}}
+{{/if}}

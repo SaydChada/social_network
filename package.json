@@ -1,0 +1,42 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "description": "Ifocop project multiplayer game",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "connect-mongo": "^1.3.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.1",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.1",
+    "method-override": "^2.3.7",
+    "mongoose": "^4.9.0",
+    "nodemailer": "^3.1.7",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaydChada/game.git"
+  },
+  "keywords": [
+    "social network;",
+    "express;",
+    "nodejs;",
+    "handlebars;",
+    "socket.io"
+  ],
+  "author": "Said Chada <chadasaid78@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SaydChada/social_network/issues"
+  },
+  "homepage": "https://github.com/SaydChada/social_network#readme"
+}

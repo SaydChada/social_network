@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title text-center">Contact</div>
+            </div>
+            <div class="panel-body">
+                <form role="form" method="POST" action="{{ url }}" class="form-horizontal">
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Nom" required="">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <input type="text" class="form-control" value="{{ user.email }}" id="from" name="from" placeholder="Email" required="">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-bullhorn"></i></span>
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Sujet" required="">
+                    </div>
+                    <br>
+                    <div class="row-fluid">
+                        <textarea class="form-control" id="message" name="message" placeholder="Message..." maxlength="200" rows="7"></textarea>
+                        <span><i id="characterLeft" class="help-block ">200 characteres restants</i></span>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-xs-4 pull-right">
+                            <button type="submit" class="btn btn-success">Envoyer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#extends "script-block" }}
+    <script src="/public/js/contact.js" type="application/javascript"></script>
+{{/extends }}

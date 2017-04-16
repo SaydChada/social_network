@@ -1,0 +1,43 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Afficher la navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">{{ website }}</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li {{#xif url '==' '/' }}class="active"{{/xif}}>
+                    <a href="/">Accueil</a>
+                </li>
+                <li {{#xif url '==' '/games' }}class="active"{{/xif}}>
+                    <a href="/games">Jouer</a>
+                </li>
+                <li {{#xif url '==' '/homes/about' }}class="active"{{/xif}}>
+                    <a href="/homes/about">A propos</a>
+                </li>
+                <li {{#xif url '==' '/homes/contact' }}class="active"{{/xif}}>
+                    <a href="/homes/contact">Contact</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {{#if user }}
+                    <li>
+                        <a href="/users/logout" >Déconnexion</a>
+                    </li>
+                {{else}}
+                    <li {{#xif url '==' '/users/register' }}class="active"{{/xif}}>
+                        <a href="/users/register" >Inscription</a>
+                    </li>
+                    <li {{#xif url '==' '/users/login' }}class="active"{{/xif}}>
+                        <a href="/users/login" >Connexion</a>
+                    </li>
+                {{/if}}
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
