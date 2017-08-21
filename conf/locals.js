@@ -7,7 +7,7 @@
 module.exports = {
     env             : "dev",
     server          : require('./server'),
-    website         : "MagicFinger",
+    website         : "LinkedCats",
     adminEmail      : "contact@chadasaid.net",
     currentYear     : (new Date()).getFullYear()
 };

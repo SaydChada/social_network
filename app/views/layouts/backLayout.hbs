@@ -1,1 +1,29 @@
-<p> Admin</p>
+<!DOCTYPE html>
+<html>
+<head>
+    {{#> head-block}}
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+        <title> {{ website }} :: {{ pageTitle }} </title>
+        <link rel="shortcut icon" href="/icon/favicon.ico" type="image/x-icon">
+        {{> admin/_css}}
+        {{{block "style-block"}}}
+    {{/head-block}}
+</head>
+<body>
+
+<div class="container">
+    {{> admin/_nav}}
+    {{> flash_messages}}
+    {{{body}}}
+    {{> admin/_footer }}
+</div>
+
+{{#> script-block}}
+    {{> admin/_script }}
+    <script type="application/javascript" src="/js/admin.js"></script>
+    {{{block "script-block"}}}
+{{/script-block}}
+</body>
+
+</html>

@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
         <title> {{ website }} :: {{ pageTitle }} </title>
-        <link rel="shortcut icon" href="/public/icon/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="/icon/favicon.ico" type="image/x-icon">
         {{> front/_css}}
         {{{block "style-block"}}}
     {{/head-block}}
@@ -21,7 +21,7 @@
 
     {{#> script-block}}
         {{> front/_script }}
-        <script type="application/javascript" src="/public/js/main.js"></script>
+        <script type="application/javascript" src="/js/main.js"></script>
         {{{block "script-block"}}}
     {{/script-block}}
 </body>

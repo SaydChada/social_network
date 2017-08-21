@@ -1,7 +1,7 @@
 $(document).ready(function(){
     var $characterLeft = $('#characterLeft');
     $characterLeft.text('200 characters réstants');
-    $('#message').keydown(function () {
+    $('#message').keyup(function () {
         var max = 200;
         var len = $(this).val().length;
         if (len >= max) {

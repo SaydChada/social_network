@@ -11,15 +11,18 @@ class UsersController extends baseController{
 
     registerAction(){
         if(this.req.method ==='POST'){
-            let logins = this.req.body;
-            if(logins.username && logins.password && logins.email){
+            let data = this.req.body;
+            if(data){
 
-                let data = {
-                    username : logins.username,
-                    email : logins.email,
-                    password : logins.password
+                let user = {
+                    username : data.username,
+                    description: data.description,
+                    email : data.email,
+                    password : data.password,
+                    gender : data.gender[0],
+                    birthdate: moment(data.birthdate, 'DD/MM/YYY').toDate()
                 };
-                this.register(data);
+                this.register(user);
             }
             // No username or login
             else{

@@ -6,8 +6,10 @@ module.exports = function (app) {
 
     let flashKeepOnRedirect = require('./middlewares/flashKeepOnRedirect');
     let serverErrorHandler  = require('./app/routes/errors');
+    let mainRouting         = require('./app/routes/main');
+    let allowedRootFiles    = require('./middlewares/allowedRootFiles');
 
     // Main routing config aka default routing (/controller/action)
-    app.use('/', require('./app/routes/main')(app),serverErrorHandler, flashKeepOnRedirect);
+    app.use('/', mainRouting(app) , serverErrorHandler, flashKeepOnRedirect);
 
 };

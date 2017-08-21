@@ -11,7 +11,7 @@ Social network made during my training as JavaScript full stack dev at Ifocop
 - clone this repository with git or download it
 - open a terminal and change directory to root of project
 - then in terminal "npm install"
-- again in terminal run this command "npm run"
+- again in terminal run this command "npm start"
 - now you can access the project, enjoy.
 
 # Configuration

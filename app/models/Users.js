@@ -15,13 +15,16 @@ class Users extends baseModel{
 
         let Schema = this.db.Schema;
         this.schema = new Schema({
-            username    : String,
-            email       : String,
-            status      : { type: String, default: 'Hors ligne'},
+            username    : {type: String, unique : true},
+            email       : {type: String, unique: true},
             password    : String,
+            role        : String,
             socketId    : String,
-            games       : [{ type: Schema.Types.ObjectId, ref: 'games' }],
-            total_score : {type : Number, default : 0},
+            gender      : String,
+            age         : Number,
+            description : {type: String, min: 10, max: 100},
+            preferences : Object,
+            avatar      : String,
             created     : { type: Date, default: Date.now }
         });
 

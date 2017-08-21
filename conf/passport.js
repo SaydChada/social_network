@@ -5,6 +5,7 @@ module.exports = {
         user = {
             username: user.username,
             email: user.email,
+            role: user.role,
             _id: user._id,
             created: user.created
         };

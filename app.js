@@ -37,7 +37,7 @@ function init(routing, localConf){
     // Set directories
     app.set( 'views', path.join( __dirname,'app', 'views' ) );
     app.set('layouts', path.join( app.get('views'), 'layouts'));
-    app.use( '/public', express.static( path.join( __dirname, 'app', 'public' ) ) );
+    app.use( '/', express.static( path.join( __dirname, 'app', 'public' ) ) );
 
     // Configure handlebars && Set as default engine, merge with global helpers
     let hbsConf = Object.assign({helpers : require('./app/views/helpers/global')}, localConf.hbs);
@@ -45,9 +45,11 @@ function init(routing, localConf){
     app.set('view engine', 'hbs');
     app.enable('view cache');
 
-// Session config
+    // global vars
     global.dbConnection = mongoose.connect(localConf.bdd.url());
+    global.moment = require('moment');
 
+    // Session config
     let session = expressSession({
         secret: localConf.secrets.session,
         store: new MongoStore({
