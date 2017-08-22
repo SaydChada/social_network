@@ -48,6 +48,8 @@ function init(routing, localConf){
     // global vars
     global.dbConnection = mongoose.connect(localConf.bdd.url());
     global.moment = require('moment');
+    global.async  = require('async');
+    global.crypto = require('crypto');
 
     // Session config
     let session = expressSession({

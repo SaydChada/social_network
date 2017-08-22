@@ -22,6 +22,9 @@ class baseController{
         this.models = {};
         this.viewDir = '';
 
+        // autoload currentModel
+        this.model = this.getModel(this.params.model);
+
         this.viewVars = {url : req.url, user: req.user, helpers: {}};
         this.viewVars.flashMessages =  this.req.session.flashMessages || [];
         this.helpersDir = '../views/helpers/';
@@ -39,7 +42,6 @@ class baseController{
 
         // Set default layout if not
         data.layout = data.layout || 'emailLayout';
-
 
         // render template before send email
         this.req.app.render(view, data, function(err, hbsTemplate){
@@ -96,12 +98,15 @@ class baseController{
     getModel(modelName){
 
         modelName = baseController.toModelName(modelName);
-
+        let modelPath = path.join('..','models', modelName);
         if(!this.models[modelName]){
-            let modelPath = path.join('..','models', modelName);
-            let model = require(modelPath);
-            model.controller = this;
-            this.models[modelName] = model;
+            try{
+                let model = require(modelPath);
+                model.controller = this;
+                this.models[modelName] = model;
+            }catch(e){
+                return null;
+            }
         }
 
         return this.models[modelName];

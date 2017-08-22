@@ -30,6 +30,10 @@ class baseModel{
          this.getMongooseModel().find(query, projection, options, callback);
     }
 
+    findOne(query, callback, projection, options){
+        this.getMongooseModel().findOne(query, projection, options, callback)
+    }
+
     update(query, callback, options){
         this.getMongooseModel().update(query, options, callback);
     }

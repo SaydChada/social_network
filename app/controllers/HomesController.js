@@ -8,8 +8,7 @@ class HomesController extends baseController{
     }
 
     indexAction(){
-
-        this.viewVars.users = {};
+        
         this.viewVars.pageTitle = 'index';
         this.render(this.view);
     }

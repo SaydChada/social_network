@@ -9,14 +9,15 @@ module.exports = function (app){
     const router    = express.Router();
     const path      = require('path');
 
-    router.all('/:controller?/:action?', function (request, response, next) {
+    router.all('/:controller?/:action?/:id?', function (request, response, next) {
 
-        let requestController = request.params.controller || 'homes';
-        requestController = app.toControllerName(requestController);
+        let modelName = request.params.controller || 'homes';
+        let requestController = app.toControllerName(modelName);
         let requestAction = request.params.action || 'index';
 
         request.params.controller = requestController;
         request.params.action = requestAction;
+        request.params.model = modelName;
 
 
         let controllerPath = path.join('app', 'controllers', requestController );

@@ -15,9 +15,11 @@ class Users extends baseModel{
 
         let Schema = this.db.Schema;
         this.schema = new Schema({
-            username    : {type: String, unique : true},
-            email       : {type: String, unique: true},
-            password    : String,
+            username: { type: String, required: true, unique: true },
+            email: { type: String, required: true, unique: true },
+            password: { type: String, required: true },
+            resetPasswordToken: String,
+            resetPasswordExpires: Date,
             role        : String,
             socketId    : String,
             gender      : String,
@@ -29,7 +31,6 @@ class Users extends baseModel{
         });
 
         this.schema.plugin(passportLocalMongoose, {hashField : 'password'});
-
     }
 
 
