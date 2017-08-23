@@ -36,7 +36,7 @@ class UsersController extends baseController{
                     delete data.avatar;
 
                     user.username = user.username != data.username ? data.username : user.username;
-                    user.firstName = user.firstName != data.firstname ? data.firstName : user.firstName;
+                    user.firstName = user.firstName != data.firstname ? data.firstname : user.firstName;
                     user.lastName = user.lastName != data.lastname ? data.lastname : user.lastName;
                     user.gender = user.gender != data.gender[0] ? data.gender[0] : user.gender;
                     user.gender = user.gender != data.gender[0] ? data.gender[0] : user.gender;
