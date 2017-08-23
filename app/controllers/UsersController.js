@@ -163,11 +163,15 @@ class UsersController extends baseController{
             },
             (user, done) => {
                 // Upload avatar
-                if(data.avatar) {
+                if(avatar) {
+
+                    // Get extention from uri
                     let extension = avatar.match(/image\/(.*);/);
+                    // Remove mimetype from uri base64
+                    avatar = avatar.replace(/^data:image\/png;base64,/, "");
 
+                    // build dirname and writefile
                     let dir = process.cwd() + '/app/public/uploads/' + user.username;
-
                     mkdirp(dir, (err) => {
                         if(err){
                             return done(err);
@@ -178,9 +182,7 @@ class UsersController extends baseController{
                             this.fs.writeFile(path, avatar,  'base64',
                                 function (err) {
 
-                                console.log('err', err);
-                                console.log('uid', user._id);
-                                console.log('path', path);
+
 
                                     done(err, user, path);
                                 })
@@ -188,12 +190,12 @@ class UsersController extends baseController{
 
                     });
                 }else{
-                    done();
+                    done(null, null, null);
                 }
             },
             (user, path, done) => {
                 if(path){
-                    user.update({_id: user._id}, {avatar: path}, function(err, count){
+                    user.update({_id: user._id}, { $set: { avatar: path } }, function(err, count){
                         done(err);
                     });
                 }else{
