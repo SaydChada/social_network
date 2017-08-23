@@ -171,7 +171,7 @@ class UsersController extends baseController{
                     avatar = avatar.replace(/^data:image\/(?:png|jpg|jpeg|gif);base64,/, "");
 
                     // build dirname and writefile
-                    let dir = process.cwd() + '/app/public/uploads/' + user.username;
+                    let dir = process.cwd() + '/app/public/uploads/' + slugify(user.username);
                     mkdirp(dir, (err) => {
                         if(err){
                             return done(err);
@@ -195,7 +195,7 @@ class UsersController extends baseController{
             },
             (user, path, done) => {
                 if(path){
-                    userModel.update({_id: user._id}, { $set: { avatar: path } }, function(err, count){
+                    userModel.update({ username: user.username}, { avatar: path } , function(err, count){
                         done(err);
                     });
                 }else{

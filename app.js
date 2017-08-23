@@ -54,6 +54,7 @@ function init(routing, localConf){
     global.async  = require('async');
     global.crypto = require('crypto');
     global.mkdirp = require('mkdirp');
+    global.slugify = require('slugify');
 
     // Session config
     let session = expressSession({
