@@ -15,7 +15,9 @@ class Users extends baseModel{
 
         let Schema = this.db.Schema;
         this.schema = new Schema({
-            username: { type: String, required: true, unique: true },
+            username: { type: String, required: true },
+            firstName: { type: String, required: true },
+            lastName: { type: String, required: true },
             email: { type: String, required: true, unique: true },
             password: { type: String, required: true },
             resetPasswordToken: String,
@@ -27,6 +29,7 @@ class Users extends baseModel{
             description : {type: String, min: 10, max: 100},
             preferences : Object,
             avatar      : String,
+            friends     : [Object],
             created     : { type: Date, default: Date.now }
         });
 
@@ -35,7 +38,7 @@ class Users extends baseModel{
 
 
     /**
-     * Retrieve online users excluding current user
+     * Retrieve online users excluding current users
      * @param cb
      */
     getOnlineUsers(cb){

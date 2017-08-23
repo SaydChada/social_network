@@ -9,6 +9,14 @@ class UsersController extends baseController{
         this.viewDir = 'users';
     }
 
+    profileAction(){
+        return this.render();
+    }
+
+    editAction(){
+        return this.render();
+    }
+
     registerAction(){
         if(this.req.method ==='POST'){
             let data = this.req.body;
@@ -17,11 +25,16 @@ class UsersController extends baseController{
                 let user = {
                     username : data.username,
                     description: data.description,
+                    firstName: data.firstname,
+                    lastName: data.lastname,
+                    role:  'user',
+                    avatar: data.avatar,
                     email : data.email,
                     password : data.password,
-                    gender : data.gender[0],
+                    gender : data.gender ? data.gender[0] : null,
                     birthdate: moment(data.birthdate, 'DD/MM/YYY').toDate()
                 };
+
                 this.register(user);
             }
             // No username or login
@@ -138,19 +151,119 @@ class UsersController extends baseController{
      */
     register(data){
         let userModel = this.getModel('users').getMongooseModel();
-        userModel.register(new userModel(data), data.password, (err, account) => {
-            if (err) {
-                throw err;
+
+        let avatar = data.avatar;
+        delete data.avatar;
+
+        async.waterfall([
+            (done) => {
+                userModel.register(new userModel(data), data.password, (err, user) => {
+                    done(err, user);
+                });
+            },
+            (user, done) => {
+                // Upload avatar
+                if(data.avatar) {
+                    let extension = avatar.match(/image\/(.*);/);
+
+                    let dir = process.cwd() + '/app/public/uploads/' + user.username;
+
+                    mkdirp(dir, (err) => {
+                        if(err){
+                            return done(err);
+                        }
+
+                        let path = dir + '/avatar.' + extension[1];
+                        if(extension){
+                            this.fs.writeFile(path, avatar,  'base64',
+                                function (err) {
+
+                                console.log('err', err);
+                                console.log('uid', user._id);
+                                console.log('path', path);
+
+                                    done(err, user, path);
+                                })
+                        }
+
+                    });
+                }else{
+                    done();
+                }
+            },
+            (user, path, done) => {
+                if(path){
+                    user.update({_id: user._id}, {avatar: path}, function(err, count){
+                        done(err);
+                    });
+                }else{
+                    done();
+                }
+            }
+            ,
+            (done) => {
+                this.passport.authenticate('local')(this.req, this.res, () => {
+                    this.viewVars.flashMessages.push({
+                        type: 'success',
+                        message: 'Merci pour votre inscription, vous êtes connecté !'
+                    });
+                    this.res.redirect('/');
+                });
+            },
+        ], (err) => {
+            console.log(err);
+
+            if(err.name === 'UserExistsError'){
+                this.viewVars.flashMessages.push({
+                    type: 'danger',
+                    message: 'L\'utilisateur : "' + data.username + '" existe déjà!'
+                });
             }
 
-            this.passport.authenticate('local')(this.req, this.res, () => {
+            if(err.name === 'MongoError' && err.code === 11000){
                 this.viewVars.flashMessages.push({
-                    type: 'warning',
-                    message: 'Merci pour votre inscription, vous êtes connecté !'
+                    type: 'danger',
+                    message: 'L\'email : "' + data.email + '" est déjà utilisé!'
                 });
-                this.res.redirect('/');
-            });
+            }
+
+            else{
+                this.viewVars.flashMessages.push({
+                    type: 'danger',
+                    message: 'Une erreur est survenue, veuillez ressayer !'
+                });
+            }
+
+            return this.res.redirect('back');
         });
+
+        // userModel.register(new userModel(data), data.password, (err, user) => {
+        //     if (err) {
+        //         throw err;
+        //     }
+        //
+        //     // Upload avatar
+        //     if(data.avatar) {
+        //         let extension = data.avatar.match(/image\/(.*);/);
+        //         if(extension){
+        //             this.fs.writeFile('/uploads/' + user.username + '/avatar', data.avatar + '.' + extension[1],
+        //                 function (err) {
+        //                 if (err) {
+        //                     console.log(err);
+        //                     return next(err);
+        //                 }
+        //             })
+        //         }
+        //     }
+        //
+        //     this.passport.authenticate('local')(this.req, this.res, () => {
+        //         this.viewVars.flashMessages.push({
+        //             type: 'success',
+        //             message: 'Merci pour votre inscription, vous êtes connecté !'
+        //         });
+        //         this.res.redirect('/');
+        //     });
+        // });
     }
 
     /**
@@ -267,8 +380,8 @@ class UsersController extends baseController{
                                 throw setPasswordErr;
                             }
 
-                            // user.resetPasswordToken = null;
-                            // user.resetPasswordExpires = null;
+                            user.resetPasswordToken = null;
+                            user.resetPasswordExpires = null;
 
                             user.save((err) => {
                                 this.req.logIn(user, function(err) {

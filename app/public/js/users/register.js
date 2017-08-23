@@ -55,4 +55,14 @@ $(function () {
         name: 'gender'
     });
 
+    $('.js-tapatar').tapatar({
+        sources: {
+            local: {enabled: true, order: 1},
+        },
+        image_url_prefix: '/js/dist/tapatar/img/',
+        default_image: function() {
+            return this.image_url_prefix + 'default.svg';
+        },
+    });
+
 });

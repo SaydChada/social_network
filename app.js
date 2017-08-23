@@ -8,6 +8,8 @@ function init(routing, localConf){
 
 // Dependencies modules
     const http           = require('http');
+    const cors           = require('cors');
+    const multer         = require('multer');
     const express        = require('express');
     const expressSession = require('express-session');
     const cookieParser   = require('cookie-parser');
@@ -27,9 +29,10 @@ function init(routing, localConf){
 
     app.use( cookieParser(localConf.secrets.cookie) );
     app.use( express.Router() );
-    app.use( bodyParser.json() );
-    app.use( bodyParser.urlencoded({extended: true}) );
+    app.use(bodyParser.json({limit: '50mb'}));
+    app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
     app.use( methodOverride('_method') );
+    app.use(cors());
     app.locals = localConf.locals;
 
 // View configuration
@@ -50,6 +53,7 @@ function init(routing, localConf){
     global.moment = require('moment');
     global.async  = require('async');
     global.crypto = require('crypto');
+    global.mkdirp = require('mkdirp');
 
     // Session config
     let session = expressSession({

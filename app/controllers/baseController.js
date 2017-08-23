@@ -13,10 +13,13 @@ class baseController{
      * @param next : Function | next middleware
      */
     constructor(req, res, next){
+
+        this.debug = false;
+
         this.req = req;
         this.next = next;
         this.res = res;
-        this.debug = false;
+        this.fs = require('fs');
         this.params = this.req.params;
         this.passport = require('passport');
         this.models = {};
