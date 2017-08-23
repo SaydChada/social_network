@@ -4,3 +4,5 @@ node_modules/
 npm-debug.log
 /conf/secrets.js
 /conf/mail.js
+!/app/public/uploads/
+/app/public/uploads/*/

@@ -168,7 +168,7 @@ class UsersController extends baseController{
                     // Get extention from uri
                     let extension = avatar.match(/image\/(.*);/);
                     // Remove mimetype from uri base64
-                    avatar = avatar.replace(/^data:image\/png;base64,/, "");
+                    avatar = avatar.replace(/^data:image\/(?:png|jpg|jpeg|gif);base64,/, "");
 
                     // build dirname and writefile
                     let dir = process.cwd() + '/app/public/uploads/' + user.username;
@@ -195,7 +195,7 @@ class UsersController extends baseController{
             },
             (user, path, done) => {
                 if(path){
-                    user.update({_id: user._id}, { $set: { avatar: path } }, function(err, count){
+                    userModel.update({_id: user._id}, { $set: { avatar: path } }, function(err, count){
                         done(err);
                     });
                 }else{
