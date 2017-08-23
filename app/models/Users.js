@@ -25,7 +25,7 @@ class Users extends baseModel{
             role        : String,
             socketId    : String,
             gender      : String,
-            age         : Number,
+            birthdate   : Date,
             description : {type: String, min: 10, max: 100},
             preferences : Object,
             avatar      : String,

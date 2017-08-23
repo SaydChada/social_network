@@ -27,7 +27,7 @@ class UsersController extends baseController{
                     done(err, user);
                 })
             },
-            (done, user) =>{
+            (user, done) =>{
 
                 if(this.req.method === 'POST') {
 
@@ -35,42 +35,56 @@ class UsersController extends baseController{
                     let avatar = data.avatar;
                     delete data.avatar;
 
-                    user = {
-                        username: data.username,
-                        firstName: data.firstname,
-                        lastName: data.lastname,
-                        gender: data.gender ? data.gender[0] : null,
-                        birthdate: moment(data.birthdate, 'DD/MM/YYY').toDate()
-                    };
+                    user.username = user.username != data.username ? data.username : user.username;
+                    user.firstName = user.firstName != data.firstname ? data.firstName : user.firstName;
+                    user.lastName = user.lastName != data.lastname ? data.lastname : user.lastName;
+                    user.gender = user.gender != data.gender[0] ? data.gender[0] : user.gender;
+                    user.gender = user.gender != data.gender[0] ? data.gender[0] : user.gender;
+                    user.description = user.description != data.description ? data.description : user.description;
+                    user.description = user.description != data.description ? data.description : user.description;
+                    user.birthdate = user.birthdate != data.birthdate
+                        ? moment(data.birthdate, 'DD/MM/YYY').format('YYYY-MM-DD')
+                        : user.birthdate;
 
-                    if(avatar) {
+                    console.log(data.birthdate);
+                    console.log(user.birthdate);
+
+                    if(avatar && user.avatar != avatar) {
 
                         // Get extention from uri
                         let extension = avatar.match(/image\/(.*);/);
-                        // Remove mimetype from uri base64
-                        avatar = avatar.replace(/^data:image\/(?:png|jpg|jpeg|gif);base64,/, "");
 
-                        let relativPath = '/uploads/'  + slugify(user.username) + '/avatar.' + extension[1];
-                        // build dirname and writefile
-                        let dir = process.cwd() + '/app/public/' + slugify(user.username);
-                        mkdirp(dir, (err) => {
-                            if(err){
-                                return done(err);
-                            }
+                        if(!extension){
+                            done(null, user);
+                        }else{
 
-                            let fileName = 'avatar.' + extension[1];
-                            let path = dir + '/' + fileName;
-                            if(extension){
-                                this.fs.writeFile(path, avatar,  'base64',
-                                    function (err) {
-                                        user.avatar = relativPath;
-                                        done(err, user);
-                                    })
-                            }
+                            // Remove mimetype from uri base64
+                            avatar = avatar.replace(/^data:image\/(?:png|jpg|jpeg|gif);base64,/, "");
 
-                        });
+                            let relativPath = '/uploads/'  + slugify(user.username) + '/avatar.' + extension[1];
+                            // build dirname and writefile
+                            let dir = process.cwd() + '/app/public/' + slugify(user.username);
+                            mkdirp(dir, (err) => {
+                                if(err){
+                                    return done(err);
+                                }
+
+                                let fileName = 'avatar.' + extension[1];
+                                let path = dir + '/' + fileName;
+                                if(extension){
+                                    this.fs.writeFile(path, avatar,  'base64',
+                                        function (err) {
+                                            user.avatar = relativPath;
+                                            done(err, user);
+                                        })
+                                }
+
+                            });
+
+                        }
+
                     }else{
-                        done(null, null, null);
+                        done(null, user);
                     }
 
                 }
@@ -78,10 +92,15 @@ class UsersController extends baseController{
                     return this.render();
                 }
             },
-            (user, path) =>{
-                if(path){
-                    userModel.update({ username: user.username}, user, function(err, count){
-                        done(err);
+            (user, done) =>{
+                if(user){
+                    this.model.update({ username: user.username}, user, (err, count) =>{
+                        if(err){
+                            done(err);
+                        }else{
+                            this.viewVars.user = user;
+                            return this.render();
+                        }
                     });
                 }else{
                     done();

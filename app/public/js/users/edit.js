@@ -2,6 +2,7 @@ let spinner = new Spinner().spin();
 document.querySelector('.loading').appendChild(spinner.el);
 $(function () {
 
+    let currentLength = 0;
     tinymce.init({
         selector: '.tmce',
         menubar: false,
@@ -15,11 +16,14 @@ $(function () {
 
             ed.on('init', function(e){
                 $('.loading').remove();
-                $('#register_btn').removeClass('disabled');
+                currentLength =  $(ed.getBody()).text().length;
+                $('#register_btn').prop('disabled', false);
             });
 
             ed.on('keyUp', function(e){
-                let tinylen = ed.getContent().replace(/(<([^>]+)>)/ig,"").length;
+
+
+                let tinylen =  $(ed.getBody()).text().length;
                 let $totalChars =  $('#totalChars');
                 let maxChars = parseInt($('#'+(ed.id)).attr("maxlength"));
                 let minChars = parseInt($('#'+(ed.id)).attr("minlength"));
@@ -31,12 +35,12 @@ $(function () {
                 }
             });
         }
-    }).then(function(editor){
+    }).then(function(ed){
         $('#label_description').removeClass('hidden');
         $('.mce-path').html(
             '<p"> Minimum 10 charactères, maximum 100.</p> ' +
             '</br>' +
-            '<p id="totalChars">(0/100)</p>');
+            '<p id="totalChars">('+ currentLength +'/100)</p>');
     });
 
     $('#birthdate').datetimepicker({
@@ -80,8 +84,7 @@ $(function () {
         default_image: function() {
 
             if($('.js-tapatar').val()){
-                // return $('.js-tapatar').val();
-                return '/uploads/yassay_fr-5/avatar.png';
+                return $('.js-tapatar').val();
             }
 
             return this.image_url_prefix + 'default.svg';
