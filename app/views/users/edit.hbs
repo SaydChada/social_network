@@ -18,7 +18,7 @@
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                        <input type="text" name="birthdate" value="{{ user.birthdate }}" required id="birthdate" placeholder="birthdate" class="form-control"/>
+                        <input type="text" name="birthdate" value="{{ dateFormat user.birthdate 'DD/MM/YYYY' }}" required id="birthdate" placeholder="birthdate" class="form-control"/>
                     </div>
                     <br>
                     <div class="input-group">

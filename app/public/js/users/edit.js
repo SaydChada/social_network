@@ -48,7 +48,7 @@ $(function () {
         viewMode: 'years',
         maxDate : moment(),
         format: 'DD/MM/YYYY',
-        defaultDate: '',
+        defaultDate: $('#birthdate').val() ? moment($('#birthdate').val(), 'DD/MM/YYYY') : '',
         useCurrent: false,
         minDate : moment().subtract(100, 'year')
     });

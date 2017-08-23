@@ -43,11 +43,8 @@ class UsersController extends baseController{
                     user.description = user.description != data.description ? data.description : user.description;
                     user.description = user.description != data.description ? data.description : user.description;
                     user.birthdate = user.birthdate != data.birthdate
-                        ? moment(data.birthdate, 'DD/MM/YYY').format('YYYY-MM-DD')
+                        ? moment(data.birthdate, 'DD/MM/YYYY').toDate()
                         : user.birthdate;
-
-                    console.log(data.birthdate);
-                    console.log(user.birthdate);
 
                     if(avatar && user.avatar != avatar) {
 

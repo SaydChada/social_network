@@ -26,6 +26,14 @@ module.exports =  {
     },
     "debug" : debug,
     "dump"  :  debug,
+    'dateFormat' : function(date, format, options){
+        if(date){
+            let dateObj = new Date(date);
+            return moment(dateObj).format(format);
+        }else{
+            return '';
+        }
+    },
     'xif'   : function (v1, operator, v2, options) {
 
         switch (operator) {
