@@ -26,8 +26,17 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {{#if user }}
-                    <li>
-                        <a href="/users/logout" >Déconnexion</a>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mon compte <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/users/profile" >Profil</a>
+                            </li>
+                            <li>
+                                <a href="/users/logout" >Déconnexion</a>
+                            </li>
+                        </ul>
                     </li>
                 {{else}}
                     <li {{#xif url '==' '/users/register' }}class="active"{{/xif}}>

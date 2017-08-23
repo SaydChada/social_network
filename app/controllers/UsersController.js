@@ -14,7 +14,87 @@ class UsersController extends baseController{
     }
 
     editAction(){
-        return this.render();
+
+        this.viewVars.formTitle = 'Edtier mon profil';
+        this.viewVars.pageTitle = 'Editer mon profil';
+
+        async.waterfall([
+
+            (done) => {
+
+                this.model.findOne({ _id:  this.req.user._id}, (err, user) =>{
+                    this.viewVars.user = user;
+                    done(err, user);
+                })
+            },
+            (done, user) =>{
+
+                if(this.req.method === 'POST') {
+
+                    let data = this.req.body;
+                    let avatar = data.avatar;
+                    delete data.avatar;
+
+                    user = {
+                        username: data.username,
+                        firstName: data.firstname,
+                        lastName: data.lastname,
+                        gender: data.gender ? data.gender[0] : null,
+                        birthdate: moment(data.birthdate, 'DD/MM/YYY').toDate()
+                    };
+
+                    if(avatar) {
+
+                        // Get extention from uri
+                        let extension = avatar.match(/image\/(.*);/);
+                        // Remove mimetype from uri base64
+                        avatar = avatar.replace(/^data:image\/(?:png|jpg|jpeg|gif);base64,/, "");
+
+                        let relativPath = '/uploads/'  + slugify(user.username) + '/avatar.' + extension[1];
+                        // build dirname and writefile
+                        let dir = process.cwd() + '/app/public/' + slugify(user.username);
+                        mkdirp(dir, (err) => {
+                            if(err){
+                                return done(err);
+                            }
+
+                            let fileName = 'avatar.' + extension[1];
+                            let path = dir + '/' + fileName;
+                            if(extension){
+                                this.fs.writeFile(path, avatar,  'base64',
+                                    function (err) {
+                                        user.avatar = relativPath;
+                                        done(err, user);
+                                    })
+                            }
+
+                        });
+                    }else{
+                        done(null, null, null);
+                    }
+
+                }
+                else{
+                    return this.render();
+                }
+            },
+            (user, path) =>{
+                if(path){
+                    userModel.update({ username: user.username}, user, function(err, count){
+                        done(err);
+                    });
+                }else{
+                    done();
+                }
+            }
+
+        ], (err) => {
+
+            console.log(err);
+            if (err) return next(err);
+            this.res.redirect('/users/edit');
+        });
+
     }
 
     registerAction(){
@@ -24,11 +104,9 @@ class UsersController extends baseController{
 
                 let user = {
                     username : data.username,
-                    description: data.description,
                     firstName: data.firstname,
                     lastName: data.lastname,
                     role:  'user',
-                    avatar: data.avatar,
                     email : data.email,
                     password : data.password,
                     gender : data.gender ? data.gender[0] : null,
@@ -45,18 +123,9 @@ class UsersController extends baseController{
         }
         // Not post resend view
         else{
-            let userModel = this.model;
-
-            userModel.find( (err, users) => {
-                if (err) {
-                    throw err;
-                }
-                this.viewVars.users = users;
-                this.viewVars.user = this.req.user;
-                this.viewVars.formTitle = 'Inscription';
-                this.viewVars.pageTitle = 'Inscription';
-                this.render(this.view , this.viewVars);
-            });
+            this.viewVars.formTitle = 'Inscription';
+            this.viewVars.pageTitle = 'Inscription';
+           return this.render(this.view , this.viewVars);
 
         }
 
@@ -152,57 +221,12 @@ class UsersController extends baseController{
     register(data){
         let userModel = this.getModel('users').getMongooseModel();
 
-        let avatar = data.avatar;
-        delete data.avatar;
-
         async.waterfall([
             (done) => {
                 userModel.register(new userModel(data), data.password, (err, user) => {
                     done(err, user);
                 });
             },
-            (user, done) => {
-                // Upload avatar
-                if(avatar) {
-
-                    // Get extention from uri
-                    let extension = avatar.match(/image\/(.*);/);
-                    // Remove mimetype from uri base64
-                    avatar = avatar.replace(/^data:image\/(?:png|jpg|jpeg|gif);base64,/, "");
-
-                    // build dirname and writefile
-                    let dir = process.cwd() + '/app/public/uploads/' + slugify(user.username);
-                    mkdirp(dir, (err) => {
-                        if(err){
-                            return done(err);
-                        }
-
-                        let path = dir + '/avatar.' + extension[1];
-                        if(extension){
-                            this.fs.writeFile(path, avatar,  'base64',
-                                function (err) {
-
-
-
-                                    done(err, user, path);
-                                })
-                        }
-
-                    });
-                }else{
-                    done(null, null, null);
-                }
-            },
-            (user, path, done) => {
-                if(path){
-                    userModel.update({ username: user.username}, { avatar: path } , function(err, count){
-                        done(err);
-                    });
-                }else{
-                    done();
-                }
-            }
-            ,
             (done) => {
                 this.passport.authenticate('local')(this.req, this.res, () => {
                     this.viewVars.flashMessages.push({
@@ -238,34 +262,6 @@ class UsersController extends baseController{
 
             return this.res.redirect('back');
         });
-
-        // userModel.register(new userModel(data), data.password, (err, user) => {
-        //     if (err) {
-        //         throw err;
-        //     }
-        //
-        //     // Upload avatar
-        //     if(data.avatar) {
-        //         let extension = data.avatar.match(/image\/(.*);/);
-        //         if(extension){
-        //             this.fs.writeFile('/uploads/' + user.username + '/avatar', data.avatar + '.' + extension[1],
-        //                 function (err) {
-        //                 if (err) {
-        //                     console.log(err);
-        //                     return next(err);
-        //                 }
-        //             })
-        //         }
-        //     }
-        //
-        //     this.passport.authenticate('local')(this.req, this.res, () => {
-        //         this.viewVars.flashMessages.push({
-        //             type: 'success',
-        //             message: 'Merci pour votre inscription, vous êtes connecté !'
-        //         });
-        //         this.res.redirect('/');
-        //     });
-        // });
     }
 
     /**
