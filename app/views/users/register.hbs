@@ -5,42 +5,60 @@
                 <div class="panel-title text-center">{{ formTitle }}</div>
             </div>
             <div class="panel-body">
-                <form role="form" method="post" action="{{ url }}" id="register_user_form" class="form-horizontal">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                        <input type="email" name="email" required placeholder="email" class="form-control"/>
+                <form role="form" method="post" action="{{ url }}" id="register_user_form">
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input type="email" name="email" autofocus="" required placeholder="email" class="form-control"/>
+                        </div>
                     </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                        <input type="text" name="birthdate" required id="birthdate" placeholder="birthdate" class="form-control"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            <input type="text" name="birthdate" onkeydown="return false;" required id="birthdate" placeholder="birthdate" autocomplete="off" class="form-control"/>
+                        </div>
                     </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text" name="username" required placeholder="username" autofocus="" class="form-control"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                            <input type="text" name="firstname" required placeholder="firstName" class="form-control"/>
+                        </div>
                     </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                        <input type="text" name="firstname" required placeholder="firstName" autofocus="" class="form-control"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                            <input type="text" name="lastname" required placeholder="lastName" class="form-control"/>
+                        </div>
                     </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                        <input type="text" name="lastname" required placeholder="lastName" autofocus="" class="form-control"/>
-                    </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" name="password" required placeholder="password" class="form-control"/>
-                    </div>
-                    <br>
-                    <div class="input-group ms-block">
-                        <span class="input-group-addon"><i class="fa fa-transgender"></i></span>
-                        <input type="text" name="gender" required id="gender" placeholder="gender" autofocus="" class="form-control"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group ms-block">
+                            <span class="input-group-addon"><i class="fa fa-transgender"></i></span>
+                            <input type="text" name="gender" id="gender" placeholder="gender" class="form-control"/>
+                        </div>
                     </div>
                     <hr>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" name="username" required placeholder="username" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" name="password" required placeholder="password" class="form-control"/>
+                        </div>
+                    </div>
+
+
+                    
                     <div class="input-group pull-right">
                             <button id="register_btn" type="submit" class="btn btn-success" >Inscription</button>
                     </div>
@@ -51,24 +69,12 @@
 </div>
 
 {{#extends "style-block"}}
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/magicsuggest/2.1.4/magicsuggest-min.css">
+    {{> _form_dist_style}}
 {{/extends}}
 
 
 {{#extends "script-block"}}
-    <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/magicsuggest/2.1.4/magicsuggest-min.js">
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js">
-    </script>
-
-
+    {{> _form_dist_script }}
     <script type="application/javascript" src="/js/users/register.js">
     </script>
 {{/extends}}

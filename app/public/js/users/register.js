@@ -15,6 +15,9 @@ $(function () {
         maxSelection: 1,
         maxSuggestions: 2,
         allowFreeEntries: false,
-        name: 'gender'
+        name: 'gender',
     });
+
+    $.fn.validator.Constructor.INPUT_SELECTOR = ':input:not([type="submit"], [type="reset"], button)';
+    $('#register_user_form').validator();
 });

@@ -52,9 +52,11 @@ class UsersController extends baseController{
                         let extension = avatar.match(/image\/(.*);/);
 
                         if(!extension){
+                            console.log('no extension', extension);
                             done(null, user);
                         }else{
 
+                            console.log('uploading avatar', avatar);
                             // Remove mimetype from uri base64
                             avatar = avatar.replace(/^data:image\/(?:png|jpg|jpeg|gif);base64,/, "");
 
@@ -215,7 +217,6 @@ class UsersController extends baseController{
             this.model.findOne(
                 { resetPasswordToken: this.req.params.id, resetPasswordExpires: { $gt: Date.now() } },
                 (err, user) => {
-                    console.log(user);
                     if (!user) {
                         this.viewVars.flashMessages.push({
                             type: 'danger',
