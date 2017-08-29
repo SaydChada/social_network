@@ -5,9 +5,9 @@
 .floating_alert {
     position: fixed;
     bottom: 3%;
-    left: 59%;
+    left: 54%;
     z-index: 5000;
-    width: 42%;
+    width: 45%;
     text-align: center;
     display: inline-block;
     cursor: pointer;
