@@ -70,9 +70,11 @@ class baseController{
     /**
      * Check if action is authorised
      * @param view
-     * @param role
+     * @param user
      */
-    isAuthorized(view, role){
+    isAuthorized(view, user){
+
+        let role = user.role;
 
         Object.keys(this.authViews).forEach((key) => {
             if(~this.authViews[key].indexOf(view)){

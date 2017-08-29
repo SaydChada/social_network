@@ -59,17 +59,14 @@ class UsersController extends baseController{
                         let extension = avatar.match(/image\/(.*);/);
 
                         if(!extension){
-                            console.log('no extension', extension);
                             done(null, user);
                         }else{
-
-                            console.log('uploading avatar', avatar);
                             // Remove mimetype from uri base64
                             avatar = avatar.replace(/^data:image\/(?:png|jpg|jpeg|gif);base64,/, "");
 
                             let relativPath = '/uploads/'  + slugify(user.username) + '/avatar.' + extension[1];
                             // build dirname and writefile
-                            let dir = process.cwd() + '/app/public/' + slugify(user.username);
+                            let dir = process.cwd() + '/app/public/uploads/' + slugify(user.username);
                             mkdirp(dir, (err) => {
                                 if(err){
                                     return done(err);
