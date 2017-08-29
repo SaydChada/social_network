@@ -74,7 +74,7 @@ class baseController{
      */
     isAuthorized(view, user){
 
-        let role = user.role;
+        let role = user ? user.role : null;
 
         Object.keys(this.authViews).forEach((key) => {
             if(~this.authViews[key].indexOf(view)){
