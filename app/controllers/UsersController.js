@@ -7,6 +7,12 @@ class UsersController extends baseController{
     constructor(req, res, next){
         super(req, res, next);
         this.viewDir = 'users';
+
+        // Declare auth required views
+        this.authViews.user = ['profile', 'edit', 'logout'];
+
+        this.beforeAction(this.req);
+
     }
 
     profileAction(){
@@ -22,7 +28,8 @@ class UsersController extends baseController{
 
             (done) => {
 
-                this.model.findOne({ _id:  this.req.user._id}, (err, user) =>{
+            let userId = this.req.user ? this.req.user._id : null;
+                this.model.findOne({ _id:  userId}, (err, user) =>{
                     this.viewVars.user = user;
                     done(err, user);
                 })
@@ -128,14 +135,17 @@ class UsersController extends baseController{
                     email : data.email,
                     password : data.password,
                     gender : data.gender ? data.gender[0] : null,
-                    birthdate: moment(data.birthdate, 'DD/MM/YYY').toDate()
+                    birthdate: moment(data.birthdate, 'DD/MM/YYYY').toDate()
                 };
 
                 this.register(user);
             }
             // No username or login
             else{
-                this.req.flash('danger', '-- Formulaire invalide --');
+                this.viewVars.flashMessages.push({
+                    type: 'danger',
+                    message: 'Formulaire invalide !'
+                });
                 this.render(this.view , this.viewVars);
             }
         }
@@ -190,7 +200,11 @@ class UsersController extends baseController{
             type: 'info',
             message: 'Déconnexion réussie !'
         });
-        this.res.redirect('/');
+
+        this.req.session.destroy( (err) => {
+            this.res.redirect('/');
+        });
+
     }
 
     resetAction(){

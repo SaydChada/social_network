@@ -18,10 +18,12 @@ class baseController{
 
         this.req = req;
         this.next = next;
+        this.failedAuth = false;
         this.res = res;
         this.fs = require('fs');
         this.params = this.req.params;
         this.passport = require('passport');
+        this.authViews = { user : [], admin : [] };
         this.models = {};
         this.viewDir = '';
 
@@ -61,6 +63,44 @@ class baseController{
             mailTransporter.sendMail(mailOptions, callback);
         });
 
+
+    }
+
+
+    /**
+     * Check if action is authorised
+     * @param view
+     * @param role
+     */
+    isAuthorized(view, role){
+
+        Object.keys(this.authViews).forEach((key) => {
+            if(~this.authViews[key].indexOf(view)){
+                if(role !== key ){
+
+                    this.viewVars.flashMessages.push({
+                        type: 'danger',
+                        message: 'Droits insuffisants pour accéder à la page demandée!'
+                    });
+
+                    this.failedAuth = true;
+                }
+            }
+
+        });
+    }
+
+
+    /**
+     * Do things before any actions
+     * @param req
+     * @returns {string|*}
+     */
+    beforeAction(req){
+
+        let action = req.params.action;
+        let user = req.user;
+        this.isAuthorized(action, user);
 
     }
 
@@ -161,9 +201,17 @@ class baseController{
      */
     callAction(name){
         name = name + 'Action';
+
         if(this.actionExists(name)){
-            this[name]();
-            return true;
+
+            // Auth requirement failed then redirect
+            if(this.failedAuth){
+                this.res.redirect('/');
+                return true;
+            }else{
+                this[name]();
+                return true;
+            }
         }else{
             return false;
         }

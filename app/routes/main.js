@@ -37,7 +37,7 @@ module.exports = function (app){
                 let controller = new (require(controllerModule))(request, response, next);
                 if(!controller.callAction(requestAction)){
 
-                    response.statusCode = 500;
+                    response.statusCode = 404;
                     next( new Error('--- ACTION NOT FOUND : '+ requestAction +' ---'));
                 }
             }
