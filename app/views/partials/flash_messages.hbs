@@ -4,4 +4,11 @@
             <span>{{ message }}</span>
         </div>
     {{/each}}
+    <script type="text/javascript" defer>
+      window.setTimeout(function(){
+
+          jQuery('.floating_alert').fadeOut();
+
+      }, 4000)
+    </script>
 {{/if}}
