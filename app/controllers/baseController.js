@@ -180,7 +180,11 @@ class baseController{
                 this.res.json(data);
                 break;
             default :
-                this.res.render(this.view , this.viewVars);
+                this.res.render(this.view , this.viewVars, (err) =>{
+                    this.res.statusCode = 500;
+                    this.next(err);
+                });
+
                 break;
         }
     }
@@ -208,7 +212,9 @@ class baseController{
                 this.res.redirect('/');
                 return true;
             }else{
-                this[name]();
+                // TODO maybe return T/False from this.render in controller action
+                // can be useful here
+                this[name](this.params.arg);
                 return true;
             }
         }else{

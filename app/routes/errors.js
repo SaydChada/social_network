@@ -13,8 +13,7 @@ module.exports = function (err, request, response, next) {
     console.log(' DETAIL : ', err.toString());
 
     response.statusCode = response.statusCode || 404;
-    response.status(response.statusCode).render("static/" + response.statusCode);
-    next();
+    return response.status(response.statusCode).render("static/" + response.statusCode);
 };
 
 

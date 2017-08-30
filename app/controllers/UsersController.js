@@ -17,6 +17,16 @@ class UsersController extends baseController{
         return this.render();
     }
 
+
+    viewAction(username){
+
+        console.log('username', username);
+        this.viewVars.formTitle = 'Profil de ' + username;
+        this.viewVars.pageTitle = 'Profil de ' + username;
+
+        return this.render(this.view);
+    }
+
     editAction(){
 
         this.viewVars.formTitle = 'Edtier mon profil';
