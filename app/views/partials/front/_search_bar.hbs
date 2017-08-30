@@ -1,0 +1,29 @@
+<form class="navbar-form navbar-right">
+    <div class="form-group">
+        <input type="hidden" class="form-control" id="search_user" >
+    </div>
+</form>
+
+{{#extends "script-block"}}
+    <script src="/js/dist/magic-suggest/magicsuggest-min.js"></script>
+
+    <script>
+        (function($){
+
+            $('#search_user').magicSuggest({
+                maxDropHeight: 50,
+                placeholder: 'Search for user',
+                data: '/users/search/',
+                displayField: 'username',
+                hideTrigger: true,
+                maxSelection: 1,
+                selectFirst: true,
+                useZebraStyle: true,
+                typeDelay: 300,
+                allowFreeEntries: false
+            });
+
+
+        })(jQuery);
+    </script>
+{{/extends}}

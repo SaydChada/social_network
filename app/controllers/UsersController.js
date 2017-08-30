@@ -17,9 +17,28 @@ class UsersController extends baseController{
         return this.render();
     }
 
-    searchAction(){
-        let data = {name : 3};
-        return this.render(null, data, 'json');
+    /**
+     * Return json response based on query search
+     * @param query
+     */
+    searchAction(query){
+
+        query = query || this.req.body.query;
+
+        query = new RegExp('^' + query, 'gi');
+
+        console.log(query);
+
+
+
+        let fields = {username : 1, lastName: 1, firstName: 1, _id: 1, avatar: 1};
+        this.model.find({$or: [{username: query},{lastName: query},{firstName: query}]}, (err, data) =>{
+
+            data = data || [];
+            return this.render(null, data, 'json');
+        }, fields, {limit: 5});
+
+
     }
 
 
@@ -176,6 +195,16 @@ class UsersController extends baseController{
         this.viewVars.formTitle = 'Connexion';
         this.viewVars.pageTitle = 'Connexion';
         this.viewVars.urlForgotPassword = 'forgot';
+
+        // User already logged in
+        if(this.req.user && this.req.user._id){
+            this.viewVars.flashMessages.push({
+                type: 'info',
+                message: 'Vous êtes déjà connecté !'
+            });
+
+            return this.res.redirect('back');
+        }
 
         if(this.req.method ==='POST'){
             this.passport.authenticate('local', this.login.bind(this))(this.req, this.res, this.next);
