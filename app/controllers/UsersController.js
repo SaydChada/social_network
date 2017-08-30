@@ -11,8 +11,6 @@ class UsersController extends baseController{
         // Declare auth required views
         this.authViews.user = ['profile', 'edit', 'profile'];
 
-        this.beforeAction(this.req);
-
     }
 
     profileAction(){

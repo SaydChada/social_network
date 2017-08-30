@@ -5,7 +5,9 @@ class AdminsController extends baseController{
     constructor(req, res){
         super(req, res);
         this.viewVars.defaultLayout   = 'adminLayout';
-        this.viewDir = 'admin';
+        this.viewDir = 'admins';
+
+        this.authViews.admin = ['index', 'users'];
     }
 
     indexAction(){

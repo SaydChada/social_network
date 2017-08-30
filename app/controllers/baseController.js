@@ -95,13 +95,12 @@ class baseController{
 
     /**
      * Do things before any actions
-     * @param req
      * @returns {string|*}
      */
-    beforeAction(req){
+    beforeAction(){
 
-        let action = req.params.action;
-        let user = req.user;
+        let action = this.req.params.action;
+        let user = this.req.user;
         this.isAuthorized(action, user);
 
     }
@@ -182,7 +181,6 @@ class baseController{
                 break;
             default :
                 this.res.render(this.view , this.viewVars);
-                this.next();
                 break;
         }
     }
@@ -202,10 +200,9 @@ class baseController{
      * @returns {boolean}
      */
     callAction(name){
+        this.beforeAction();
         name = name + 'Action';
-
         if(this.actionExists(name)){
-
             // Auth requirement failed then redirect
             if(this.failedAuth){
                 this.res.redirect('/');
