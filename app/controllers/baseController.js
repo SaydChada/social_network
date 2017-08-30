@@ -186,7 +186,6 @@ class baseController{
                         this.next(err);
                     }else{
                         this.res.send(template);
-                        this.next();
                     }
                 });
 
