@@ -180,9 +180,13 @@ class baseController{
                 this.res.json(data);
                 break;
             default :
-                this.res.render(this.view , this.viewVars, (err) =>{
-                    this.res.statusCode = 500;
-                    this.next(err);
+                this.res.render(this.view , this.viewVars, (err, template) =>{
+                    if(err){
+                        this.res.statusCode = 500;
+                        this.next(err);
+                    }else{
+                        this.res.send(template)
+                    }
                 });
 
                 break;
