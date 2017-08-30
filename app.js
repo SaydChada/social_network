@@ -31,9 +31,9 @@ function init(routing, localConf){
     app.use( express.Router() );
     app.use(bodyParser.json({limit: '50mb'}));
     app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-    app.disable('x-powered-by');
+    app.disable('x-powered-by'); // disable x-powered-by
     app.use( methodOverride('_method') );
-    app.use(cors());
+    app.use(cors()); // enable Cross-origin resource sharing
     app.locals = localConf.locals;
 
 // View configuration

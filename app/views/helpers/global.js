@@ -34,6 +34,9 @@ module.exports =  {
             return '';
         }
     },
+    'init' : function(name, value, context){
+        this[name] = value;
+    },
     'xif'   : function (v1, operator, v2, options) {
 
         switch (operator) {

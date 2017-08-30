@@ -91,4 +91,7 @@ $(function () {
         },
     });
 
+    $.fn.validator.Constructor.INPUT_SELECTOR = ':input:not([type="submit"], [type="reset"], button)';
+    $('#edit_user_form').validator();
+
 });

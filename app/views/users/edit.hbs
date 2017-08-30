@@ -5,41 +5,59 @@
                 <div class="panel-title text-center">{{ formTitle }}</div>
             </div>
             <div class="panel-body">
-                <form role="form" method="post" action="{{ url }}" id="register_user_form" class="form-horizontal">
+                <form role="form" method="post" action="{{ url }}" id="edit_user_form">
+
                     <div class="input-group center-element">
                         <input placeholder="avatar" type="hidden" value="{{ user.avatar }}" class="js-tapatar" name="avatar">
                     </div>
                     <hr>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                        <input type="email" name="email" value="{{ user.email }}" required placeholder="email" class="form-control"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input type="email" name="email" value="{{ user.email }}" required placeholder="email" class="form-control"/>
+                        </div>
                     </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                        <input type="text" name="birthdate" value="{{ dateFormat user.birthdate 'DD/MM/YYYY' }}" required id="birthdate" placeholder="birthdate" class="form-control"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            <input type="text" name="birthdate" autocomplete="off" value="{{ dateFormat user.birthdate 'DD/MM/YYYY' }}" required id="birthdate" placeholder="birthdate" class="form-control"/>
+                        </div>
                     </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text" name="username" value="{{ user.username }}" required placeholder="username" autofocus="" class="form-control"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" name="username" value="{{ user.username }}" required placeholder="username"  class="form-control"/>
+                        </div>
                     </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                        <input type="text" name="firstname" value="{{ user.firstName }}" required placeholder="firstName" autofocus="" class="form-control"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                            <input type="text" name="firstname" value="{{ user.firstName }}" required placeholder="firstName" class="form-control"/>
+                        </div>
                     </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                        <input type="text" name="lastname" value="{{ user.lastName }}" required placeholder="lastName" autofocus="" class="form-control"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                            <input type="text" name="lastname" value="{{ user.lastName }}" required placeholder="lastName"  class="form-control"/>
+                        </div>
                     </div>
+
                     <br>
-                    <div class="input-group ms-block">
-                        <span class="input-group-addon"><i class="fa fa-transgender"></i></span>
-                        <input type="text" name="gender" required id="gender" data-value="{{ user.gender }}" placeholder="gender" autofocus="" class="form-control"/>
+
+                    <div class="form-group has-feedback">
+                        <div class="input-group ms-block">
+                            <span class="input-group-addon"><i class="fa fa-transgender"></i></span>
+                            <input type="text" name="gender" required id="gender" data-value="{{ user.gender }}" placeholder="gender" class="form-control"/>
+                        </div>
                     </div>
-                    <br>
+
+                    <hr>
+
                     <div>
                         <div class="loading"></div>
                         <label for="description" id="label_description" class="hidden">Description</label>
@@ -60,23 +78,19 @@
 
 {{#extends "style-block"}}
     {{> _form_dist_style }}
-    <link
-            rel="stylesheet"
-            href="/js/dist/tapatar/tapatar.min.css">
+    <link rel="stylesheet" href="/js/dist/tapatar/tapatar.min.css">
 {{/extends}}
 
 
 {{#extends "script-block"}}
 
     {{> _form_dist_script }}
-    <script src="/js/dist/spin.min.js">
-    </script>
+    <script src="/js/dist/spin.min.js"></script>
+    <script src="/js/dist/tapatar/tapatar.min.js"></script>
     <script src="/js/dist/jquery.spin.js">
     </script>
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=cn1efj5yt9is3cgztz4ljwsh7vor59brfuwst9ah96fcmc2b">
     </script>
-
-    <script src="/js/dist/tapatar/tapatar.min.js"></script>
 
     <script type="application/javascript" src="/js/users/edit.js">
     </script>

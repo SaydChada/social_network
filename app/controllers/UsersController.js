@@ -17,6 +17,11 @@ class UsersController extends baseController{
         return this.render();
     }
 
+    searchAction(){
+        let data = {name : 3};
+        return this.render(null, data, 'json');
+    }
+
 
     viewAction(username){
 

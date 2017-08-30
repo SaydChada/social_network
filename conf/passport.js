@@ -6,9 +6,8 @@ module.exports = {
             username: user.username,
             email: user.email,
             role: user.role,
-            description: user.description,
-            friends: user.friends,
             _id: user._id,
+            socketId: user.socketId,
             created: user.created
         };
         done(null, user);

@@ -185,9 +185,12 @@ class baseController{
                         this.res.statusCode = 500;
                         this.next(err);
                     }else{
-                        this.res.send(template)
+                        this.res.send(template);
+                        this.next();
                     }
                 });
+
+                this.next();
 
                 break;
         }
