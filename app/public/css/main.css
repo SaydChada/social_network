@@ -28,7 +28,7 @@ body {
 
 #search_user {
     width: 100%;
-    min-width: 210px;
+    min-width: 250px;
     max-width: 100%;
 }
 
@@ -38,11 +38,19 @@ body {
    ========================================================================== */
 
 
-.center-element{
+.center-element {
     margin-left: auto;
     margin-right: auto;
 }
 
+.text-unstyled, .text-unstyled:hover{
+    text-decoration: none;
+    color : inherit;
+}
+
+.overflow-visible{
+    overflow: visible !important;
+}
 
 /* ==========================================================================
    Temporary ugly fixes :p

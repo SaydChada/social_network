@@ -1,4 +1,4 @@
-<form class="navbar-form navbar-right">
+<form class="navbar-form navbar-right form-disable">
     <div class="form-group">
         <input type="hidden" class="form-control" id="search_user" >
     </div>
@@ -10,17 +10,51 @@
     <script>
         (function($){
 
-            $('#search_user').magicSuggest({
-                maxDropHeight: 50,
+            // MS config
+
+            var magicSearchUser = $('#search_user').magicSuggest({
+                maxDropHeight: 100,
                 placeholder: 'Search for user',
                 data: '/users/search/',
-                displayField: 'username',
+                displayField: ['name'],
                 hideTrigger: true,
                 maxSelection: 1,
-                selectFirst: true,
                 useZebraStyle: true,
-                typeDelay: 300,
-                allowFreeEntries: false
+                typeDelay: 500,
+                autoSelect: false,
+                noSuggestionText: '',
+                allowFreeEntries: false,
+                renderer: function(data){
+                    var img = data.avatar;
+                    var link = '/users/view/' + data.username;
+                    return '<a class="text-unstyled" href="' + link + '">' +
+                            '<img class="img-thumbnail img-responsive" ' +
+                            'src="' + img + '" width="40"/> ' +
+                            '<span style=";margin-left: 5%">' +
+                            data.name + ' <span></a>';
+
+                },
+                selectionRenderer: function(data){
+                    return null;
+                },
+                maxSelectionRenderer: function(value){
+                    return null;
+                }
+            });
+
+            // MS EVENT
+
+            $(magicSearchUser).on('keydown', function(event, that, key){
+                console.log(key.keyCode);
+                if( key.keyCode === 13){
+                    return false;
+                }
+
+            });
+
+            $(magicSearchUser).on('selectionchange', function(event, that, selection){
+
+                that.setSelection([]);
             });
 
 

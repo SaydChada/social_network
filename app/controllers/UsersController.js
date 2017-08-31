@@ -24,17 +24,17 @@ class UsersController extends baseController{
     searchAction(query){
 
         query = query || this.req.body.query;
-
         query = new RegExp('^' + query, 'gi');
 
-        console.log(query);
+        let fields = {username : 1, lastName: 1, firstName: 1, _id: 1, avatar: 1, name: 1};
+        this.model.find({$or:[{username: query},{lastName: query},{firstName: query}]}, (err, data) =>{
 
-
-
-        let fields = {username : 1, lastName: 1, firstName: 1, _id: 1, avatar: 1};
-        this.model.find({$or: [{username: query},{lastName: query},{firstName: query}]}, (err, data) =>{
+            if(err){
+                throw err;
+            }
 
             data = data || [];
+
             return this.render(null, data, 'json');
         }, fields, {limit: 5});
 

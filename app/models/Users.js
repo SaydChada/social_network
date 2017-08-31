@@ -31,9 +31,31 @@ class Users extends baseModel{
             avatar      : String,
             friends     : [Object],
             created     : { type: Date, default: Date.now }
+        },{
+            toObject: {
+                virtuals: true
+            },
+            toJSON: {
+                virtuals: true
+            }
         });
 
         this.schema.plugin(passportLocalMongoose, {hashField : 'password'});
+
+
+
+        this.schema.virtual('name')
+            .get(function () {
+                return `${this.username} (${this.firstName} ${this.lastName})`;
+            });
+
+
+        // Set default avatar if not set by user
+        this.schema.post('init', function(doc) {
+            if(!doc.avatar){
+                doc.avatar = '/js/dist/tapatar/img/default.svg';
+            }
+        });
     }
 
 
