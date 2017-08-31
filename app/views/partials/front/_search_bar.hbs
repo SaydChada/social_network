@@ -13,7 +13,7 @@
             // MS config
 
             var magicSearchUser = $('#search_user').magicSuggest({
-                maxDropHeight: 100,
+                maxDropHeight: 200,
                 placeholder: 'Search for user',
                 data: '/users/search/',
                 displayField: ['name'],
@@ -27,10 +27,10 @@
                 renderer: function(data){
                     var img = data.avatar;
                     var link = '/users/view/' + data.username;
-                    return '<a class="text-unstyled" href="' + link + '">' +
+                    return '<a class="text-unstyled center-block" href="' + link + '">' +
                             '<img class="img-thumbnail img-responsive" ' +
                             'src="' + img + '" width="40"/> ' +
-                            '<span style=";margin-left: 5%">' +
+                            '<span style=";margin-left: 2%">' +
                             data.name + ' <span></a>';
 
                 },

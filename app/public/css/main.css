@@ -28,7 +28,7 @@ body {
 
 #search_user {
     width: 100%;
-    min-width: 250px;
+    min-width: 215px;
     max-width: 100%;
 }
 
@@ -65,4 +65,12 @@ body {
 
 .navbar-form {
     padding: 0 4px !important;
+}
+
+.ms-res-ctn{
+    position:absolute;
+}
+
+.navbar-collapse.in{
+    overflow: inherit;
 }
