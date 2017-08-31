@@ -2,8 +2,8 @@
 const baseController = require('./baseController');
 
 class AdminsController extends baseController{
-    constructor(req, res){
-        super(req, res);
+    constructor(req, res, next){
+        super(req, res, next);
         this.viewVars.defaultLayout   = 'adminLayout';
         this.viewDir = 'admins';
 
