@@ -93,6 +93,13 @@ function init(routing, localConf){
 
         console.log('--- SERVER START --- AT',localConf.server.port, localConf.server.host );
         routing(app);
+        app.socketIo = app.socketIoStart(this, app);
+
+        // Share session with socket
+        app.socketIo.use(function(socket, next) {
+            session(socket.handshake, {}, next);
+        });
+
     });
 
 
