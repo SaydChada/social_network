@@ -1,5 +1,16 @@
 (function($){
 
+    // Always enable socket
+    var socket = io.connect(null, {'timeout':1000, 'connect timeout': 1000});
+
+    /**
+     * Prevent other user that a user leave
+     */
+    socket.on('updateCounter', function(data){
+        $('#counter_live').html($(data.template));
+    });
+
+
     /**
      * Overide fn.size for magicsuggest
      */

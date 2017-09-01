@@ -35,7 +35,7 @@ module.exports = function (app){
             else{
                 console.log('--- CONTROLLER FOUND : ' + controllerPath + ' ---');
 
-                let controller = new (require(controllerModule))(request, response, next);
+                let controller = new (require(controllerModule))(request, response, next, app);
                 if(!controller.callAction(requestAction)){
 
                     response.statusCode = 404;

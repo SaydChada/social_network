@@ -10,15 +10,18 @@ class baseController{
      *
      * @param req  : Object | HttpRequest
      * @param res  : Object | HttpResponse
+     * @param app
      * @param next : Function | next middleware
      */
-    constructor(req, res, next){
+    constructor(req, res, next, app){
 
         this.debug = false;
 
         this.req = req;
         this.next = next;
+        this.app = app;
         this.failedAuth = false;
+        this.failedAuthRedirect = '/';
         this.res = res;
         this.fs = require('fs');
         this.params = this.req.params;
@@ -84,6 +87,10 @@ class baseController{
                         type: 'danger',
                         message: 'Droits insuffisants pour accéder à la page demandée!'
                     });
+
+                    if(key === 'user'){
+                        this.failedAuthRedirect = '/users/login';
+                    }
 
                     this.failedAuth = true;
                 }
@@ -215,7 +222,7 @@ class baseController{
         if(this.actionExists(name)){
             // Auth requirement failed then redirect
             if(this.failedAuth){
-                this.res.redirect('/');
+                this.res.redirect(this.failedAuthRedirect);
                 return true;
             }else{
                 // TODO maybe return T/False from this.render in controller action

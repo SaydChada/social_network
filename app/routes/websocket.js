@@ -3,6 +3,31 @@
 const ws            = require('socket.io');
 const UserModel     = require('../models/Users').getMongooseModel();
 
+let count_logged= 0;
+let count_anonymous = 0;
+
+
+
+function counterLive(app, io, client){
+
+    let dataTemplate = {
+        total_logged : count_logged,
+        total_anonymous : count_anonymous,
+        total_users : count_logged + count_anonymous,
+        layout: false,
+        helpers : {/*getStatusLabel : require('../views/helpers/game/getStatusLabel')*/}
+    };
+
+    // Get template to send to all other clients
+    app.render('partials/front/_counter_user', dataTemplate,  function(err, hbsTemplate){
+        if(err){
+            throw err;
+        }
+        io.emit('updateCounter', { template : hbsTemplate });
+    });
+
+}
+
 module.exports = function(server, app){
 
     console.log('--- SOCKET ENABLED ---');
@@ -18,13 +43,18 @@ module.exports = function(server, app){
 
         // ONly available for logged in users
         if(!client.handshake.session.passport){
-            return;
+            count_anonymous += 1;
         }else{
             // Save socketId in database
             let user = client.handshake.session.passport.user;
-            UserModel.update({ _id : user._id}, {$set : {socketId : client.id}},function(err){
-            });
+            count_logged += 1;
+            //TODO comme on refresh le socket change à chaques fois inutile de le save
+            // UserModel.update({ _id : user._id}, {$set : {socketId : client.id}},function(err){
+            // });
         }
+
+        counterLive(app, socketIo, client);
+
 
 
         /**
@@ -70,26 +100,25 @@ module.exports = function(server, app){
          * When user leave
          */
         client.on('disconnect', function(data){
-            let user = client.handshake.session.passport.user;
 
-            UserModel.update({_id : user._id}, {$set : {socketId : ''}}, function(err, count){
+            if(client.handshake.session.passport){
 
-                if(err){
-                    throw err;
-                }
+                count_logged -= 1;
+                //TODO comme on refresh le socket change à chaques fois inutile de le save
 
-                // If user was in room
-                if(client.room){
-                    let data = {
-                        userId :user._id, username : user.username, userSocketId : client.id,
-                    };
-                    socketIo.sockets.in(client.room).emit('userLeaveRoom', data);
-                }
+                // let user = client.handshake.session.passport.user;
+                // UserModel.update({_id : user._id}, {$set : {socketId : ''}}, function(err, count){
+                //     if(err){
+                //         throw err;
+                //     }
+                // });
+            }else{
+                count_anonymous -= 1;
+            }
 
-                // Also broadcast to all users to update lobby players list
-                client.broadcast.emit('userLeave', { userId : user._id });
+            counterLive(app, socketIo, client);
 
-            });
+
         });
 
     });
