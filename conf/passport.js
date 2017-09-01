@@ -7,7 +7,7 @@ module.exports = {
             email: user.email,
             role: user.role,
             _id: user._id,
-            socketId: user.socketId,
+            avatar: user.avatar,
             created: user.created
         };
         done(null, user);

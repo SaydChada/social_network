@@ -49,52 +49,11 @@ module.exports = function(server, app){
             let user = client.handshake.session.passport.user;
             count_logged += 1;
             //TODO comme on refresh le socket change à chaques fois inutile de le save
-            // UserModel.update({ _id : user._id}, {$set : {socketId : client.id}},function(err){
-            // });
+            UserModel.update({ _id : user._id}, {$set : {socketId : client.id}},function(err){
+            });
         }
 
         counterLive(app, socketIo, client);
-
-
-
-        /**
-         * When user join lobby
-         */
-        client.on('userJoin', function(data, callback) {
-
-            let status      = 'Disponible';
-            let socketId    = data.socketId;
-            let user = client.handshake.session.passport.user;
-
-            // Update user status
-            UserModel.update({_id : user._id}, {$set : {status: status}}, function(err, count){
-
-                if(err){
-                    throw err;
-                }
-
-                let dataTemplate = {
-                    _id : user._id,
-                    username : user.username,
-                    socketId : socketId,
-                    status : status,
-                    layout: false,
-                    helpers : {getStatusLabel : require('../views/helpers/game/getStatusLabel')}
-                };
-
-                // Get template to send to all other clients
-                app.render('game/partials/block_user', dataTemplate,  function(err, hbsTemplate){
-                    if(err){
-                        throw err;
-                    }
-
-                    // Fix client status after change (because passport lose last information)
-                    callback({ userId: user._id, template: hbsTemplate});
-                    client.broadcast.emit('userJoin', { userId : user._id, template : hbsTemplate });
-                });
-            });
-        });
-
 
         /**
          * When user leave
@@ -104,14 +63,13 @@ module.exports = function(server, app){
             if(client.handshake.session.passport){
 
                 count_logged -= 1;
-                //TODO comme on refresh le socket change à chaques fois inutile de le save
 
-                // let user = client.handshake.session.passport.user;
-                // UserModel.update({_id : user._id}, {$set : {socketId : ''}}, function(err, count){
-                //     if(err){
-                //         throw err;
-                //     }
-                // });
+                let user = client.handshake.session.passport.user;
+                UserModel.update({_id : user._id}, {$set : {socketId : ''}}, function(err, count){
+                    if(err){
+                        throw err;
+                    }
+                });
             }else{
                 count_anonymous -= 1;
             }

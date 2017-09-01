@@ -1,10 +1,10 @@
 (function($){
 
     // Always enable socket
-    var socket = io.connect(null, {'timeout':1000, 'connect timeout': 1000});
+    var socket = io();
 
     /**
-     * Prevent other user that a user leave
+     * Update live counter of user online
      */
     socket.on('updateCounter', function(data){
         $('#counter_live').html($(data.template));

@@ -9,7 +9,6 @@ module.exports = {
     // Here specify every partials dirs
     partialsDir     : [
         './app/views/partials/',
-        './app/views/users/partials/'
     ],
     layoutsDir      : './app/views/layouts/',
     defaultLayout   : 'frontLayout'

@@ -161,6 +161,11 @@
     background: #fbf9fa none repeat scroll 0 0;
     padding: 10px;
 }
+
+.chat-content{
+    word-break: break-all;
+}
+
 .chat_area .admin_chat .chat-body1 {
     margin-left: 0;
     margin-right: 50px;

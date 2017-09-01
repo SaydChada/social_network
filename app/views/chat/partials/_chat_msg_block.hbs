@@ -1,0 +1,11 @@
+<li class="left clearfix {{#xif role '==' 'admin' }}text-danger{{/xif}}">
+    <span class="chat-img1 pull-left">
+        <a class="text-unstyled" href="/users/view/{{ username }}">
+            <img src="{{ avatar }}" alt="User Avatar" class="img-circle">
+        </a>
+    </span>
+    <div class="chat-body1 clearfix">
+        <p class="chat-content"><strong>{{ username }} :</strong> <br> {{ message }}</p>
+        <div class=" label label-info chat_time pull-right">{{ time }}</div>
+    </div>
+</li>
