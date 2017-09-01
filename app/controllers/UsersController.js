@@ -192,19 +192,14 @@ class UsersController extends baseController{
      * Handle login
      */
     loginAction(){
+
+        if(this.userAlreadyLoggedIn()){
+            return;
+        }
+
         this.viewVars.formTitle = 'Connexion';
         this.viewVars.pageTitle = 'Connexion';
         this.viewVars.urlForgotPassword = 'forgot';
-
-        // User already logged in
-        if(this.req.user && this.req.user._id){
-            this.viewVars.flashMessages.push({
-                type: 'info',
-                message: 'Vous êtes déjà connecté !'
-            });
-
-            return this.res.redirect('back');
-        }
 
         if(this.req.method ==='POST'){
             this.passport.authenticate('local', this.login.bind(this))(this.req, this.res, this.next);
@@ -219,6 +214,10 @@ class UsersController extends baseController{
      * @returns {*}
      */
     forgotAction(){
+
+        if(this.userAlreadyLoggedIn()){
+            return;
+        }
 
         this.viewVars.formTitle = 'Mot de passe oublié';
         this.viewVars.pageTitle = 'Oublie';
@@ -247,6 +246,10 @@ class UsersController extends baseController{
     }
 
     resetAction(){
+
+        if(this.userAlreadyLoggedIn()){
+            return;
+        }
 
         this.viewVars.formTitle = 'Nouveau mot de passe';
         this.viewVars.pageTitle = 'Nouveau mdp';
@@ -486,6 +489,27 @@ class UsersController extends baseController{
             console.log(err);
             return this.res.redirect('/users/login');
         });
+    }
+
+
+    /**
+     * Check if user is already logged in
+     */
+    userAlreadyLoggedIn(){
+
+        // User already logged in
+        if(this.req.user && this.req.user._id){
+            this.viewVars.flashMessages.push({
+                type: 'info',
+                message: 'Vous êtes déjà connecté !'
+            });
+
+            this.res.redirect('/');
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
 
