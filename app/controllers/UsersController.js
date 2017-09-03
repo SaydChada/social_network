@@ -14,7 +14,17 @@ class UsersController extends baseController{
     }
 
     profileAction(){
-        return this.render();
+
+        this.viewVars.pageTitle = 'Mon profil';
+
+        this.model.getByUserName(this.req.user.username, (err, user) =>{
+            if(err){
+                throw err;
+            }
+
+            this.viewVars.userData = user;
+            return this.render('view');
+        });
     }
 
     /**
@@ -44,11 +54,25 @@ class UsersController extends baseController{
 
     viewAction(username){
 
-        console.log('username', username);
-        this.viewVars.formTitle = 'Profil de ' + username;
         this.viewVars.pageTitle = 'Profil de ' + username;
 
-        return this.render(this.view);
+        this.model.getByUserName(username, (err, user) => {
+            if(err){
+                throw err;
+            }
+
+            if(user){
+
+                this.viewVars.userData = user;
+                console.log(user);
+                return this.render(this.view);
+            }else{
+                //Profile not found end to 404
+                this.res.statusCode = 404;
+                this.next(new Error('Page not found'));
+            }
+
+        });
     }
 
     editAction(){
@@ -60,7 +84,7 @@ class UsersController extends baseController{
 
             (done) => {
 
-            let userId = this.req.user ? this.req.user._id : null;
+                let userId = this.req.user ? this.req.user._id : null;
                 this.model.findOne({ _id:  userId}, (err, user) =>{
                     this.viewVars.user = user;
                     done(err, user);
@@ -134,7 +158,8 @@ class UsersController extends baseController{
                             done(err);
                         }else{
                             this.viewVars.user = user;
-                            return this.render();
+                            return this.res.redirect('view/' + user.username);
+
                         }
                     });
                 }else{
@@ -182,7 +207,7 @@ class UsersController extends baseController{
         else{
             this.viewVars.formTitle = 'Inscription';
             this.viewVars.pageTitle = 'Inscription';
-           return this.render(this.view , this.viewVars);
+            return this.render(this.view , this.viewVars);
 
         }
 
@@ -302,11 +327,23 @@ class UsersController extends baseController{
             },
             (done) => {
                 this.passport.authenticate('local')(this.req, this.res, () => {
-                    this.viewVars.flashMessages.push({
-                        type: 'success',
-                        message: 'Merci pour votre inscription, vous êtes connecté !'
+
+                    let mailVars = {
+                        username: data.username,
+                        title : 'Inscription sur ' + this.req.app.locals.website,
+                        from: this.req.app.locals.adminEmail,
+                        target: data.email
+                    };
+
+                    this.sendMailView('email/register', mailVars, (err, response) => {
+                        this.viewVars.flashMessages.push({
+                            type: 'success',
+                            message: 'Merci pour votre inscription, vous êtes connecté !'
+                        });
+                        this.res.redirect('/');
                     });
-                    this.res.redirect('/');
+
+
                 });
             },
         ], (err) => {

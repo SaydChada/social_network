@@ -1,21 +1,24 @@
 let spinner = new Spinner().spin();
-document.querySelector('.loading').appendChild(spinner.el);
+
 $(function () {
 
     let currentLength = 0;
     tinymce.init({
         selector: '.tmce',
+        invalid_elements : "script",
         menubar: false,
         branding: false,
         elementpath: false,
+        toolbar: "undo  redo | styleselect | bold italic |  forecolor \
+         backcolor | outdent indent  | bullist numlist | link image \
+         ",
         file_picker_types: 'image media',
-        plugins: "image",
+        plugins: "image textcolor lists",
         height: 200,
         max_height: 200,
         setup: function(ed){
 
             ed.on('init', function(e){
-                $('.loading').remove();
                 currentLength =  $(ed.getBody()).text().length;
                 $('#register_btn').prop('disabled', false);
             });
@@ -36,7 +39,6 @@ $(function () {
             });
         }
     }).then(function(ed){
-        $('#label_description').removeClass('hidden');
         $('.mce-path').html(
             '<p"> Minimum 10 charactères, maximum 100.</p> ' +
             '</br>' +

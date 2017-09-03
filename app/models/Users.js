@@ -56,17 +56,35 @@ class Users extends baseModel{
                 doc.avatar = '/js/dist/tapatar/img/default.svg';
             }
         });
+
+
+        this.dbModel = this.db.model(this.document, this.schema);
+
     }
 
 
-    /**
-     * Retrieve online users excluding current users
-     * @param cb
-     */
-    getOnlineUsers(cb){
-        let currentUser = this.controller.req.user._id;
-        this.getMongooseModel().find({ _id : {$ne : currentUser}, status : {$ne : 'Hors ligne'}}, cb);
+    getByUserName(username, callback){
+        let excludeFields = {
+            email: -1,
+            password: -1,
+            resetPasswordToken: -1,
+            resetPasswordExpires: -1,
+            role        : -1,
+            socketId    : -1,
+        };
+        //query, callback, projection, option
+        this.findOne({username : username},excludeFields, (err, user) => {
+            if(err){
+                throw err;
+            }
+
+            callback(err, user);
+
+        })
     }
+
+
+
 }
 
 

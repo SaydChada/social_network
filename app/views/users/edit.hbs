@@ -21,6 +21,7 @@
 
                     <div class="form-group has-feedback">
                         <div class="input-group">
+
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             <input type="text" name="birthdate" autocomplete="off" value="{{ dateFormat user.birthdate 'DD/MM/YYYY' }}" required id="birthdate" placeholder="birthdate" class="form-control"/>
                         </div>
@@ -59,8 +60,7 @@
                     <hr>
 
                     <div>
-                        <div class="loading"></div>
-                        <label for="description" id="label_description" class="hidden">Description</label>
+                        <label for="description" id="label_description">Description</label>
                         <textarea
                                 name="description" id="description" maxlength="100" minlength="10" required class="hidden tmce">
                             {{ user.description }}
@@ -85,11 +85,8 @@
 {{#extends "script-block"}}
 
     {{> _form_dist_script }}
-    <script src="/js/dist/spin.min.js"></script>
     <script src="/js/dist/tapatar/tapatar.min.js"></script>
-    <script src="/js/dist/jquery.spin.js">
-    </script>
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=cn1efj5yt9is3cgztz4ljwsh7vor59brfuwst9ah96fcmc2b">
+    <script src="/js/dist/tinymce/tinymce.min.js?apiKey=cn1efj5yt9is3cgztz4ljwsh7vor59brfuwst9ah96fcmc2b">
     </script>
 
     <script type="application/javascript" src="/js/users/edit.js">

@@ -22,6 +22,11 @@ body {
     margin-top : 1%;
 }
 
+textarea {
+    resize: vertical;
+}
+
+
 /* ==========================================================================
    Main Style
    ========================================================================== */
@@ -50,6 +55,14 @@ body {
 
 .overflow-visible{
     overflow: visible !important;
+}
+
+.text-break{
+    word-break: break-all;
+}
+
+.toggle-password:hover{
+    cursor: pointer;
 }
 
 /* ==========================================================================

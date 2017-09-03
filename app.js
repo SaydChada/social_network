@@ -57,6 +57,9 @@ function init(routing, localConf){
     global.mkdirp = require('mkdirp');
     global.slugify = require('slugify');
 
+    // Force moment to french local
+    require('moment-locale-fr');
+
     // Session config
     let session = expressSession({
         secret: localConf.secrets.session,

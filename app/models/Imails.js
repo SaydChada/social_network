@@ -2,20 +2,20 @@
 const baseModel = require('./baseModel');
 
 /**
- * inMails model
+ * iMails model
  */
-class InMails extends baseModel{
+class IMails extends baseModel{
 
     /**
      * Call parent and define schema
      */
     constructor(){
-        super('in_mails');
+        super('imails');
 
         let Schema = this.db.Schema;
         this.schema = new Schema({
             sender    : {type : Schema.Types.ObjectId, ref : 'Users'},
-            target    : {type: Schema.types.ObjectId, ref : 'Users'},
+            target    : {type: Schema.Types.ObjectId, ref : 'Users'},
             replyTo   : {type : Schema.Types.ObjectId, default : null, ref : 'InMails'},
             title     : String,
             content   : String,
@@ -28,4 +28,4 @@ class InMails extends baseModel{
 }
 
 
-module.exports = new InMails();
+module.exports = new IMails();

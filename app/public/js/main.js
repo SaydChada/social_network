@@ -22,6 +22,15 @@
     $('.form-disable').on('submit', function(e){
         e.preventDefault();
         return false;
-    })
+    });
+
+    $('.toggle-password').on('click', function(e){
+        var $passwordInput = $(this).prev('input[name="password"]');
+        var attr = $passwordInput.attr('type');
+
+        var toggleAttr = attr === 'password' ? 'text' : 'password';
+        $passwordInput.attr('type', toggleAttr);
+
+    });
 
 })(jQuery);

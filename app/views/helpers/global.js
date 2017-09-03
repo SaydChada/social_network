@@ -34,6 +34,13 @@ module.exports =  {
             return '';
         }
     },
+    'dateToYears' : function(date){
+      if(date){
+          return  moment().diff(new Date(date), 'years');
+      }  else{
+          return '';
+      }
+    },
     'init' : function(name, value, context){
         this[name] = value;
     },

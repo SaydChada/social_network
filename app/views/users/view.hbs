@@ -1,97 +1,28 @@
 <div class="row">
-    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div class="col-lg-4 col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="panel-title text-center">{{ formTitle }}</div>
-            </div>
-            <div class="panel-body">
-                <form role="form" method="post" action="{{ url }}" id="edit_user_form">
-
-                    <div class="input-group center-element">
-                        <input placeholder="avatar" type="hidden" value="{{ user.avatar }}" class="js-tapatar" name="avatar">
-                    </div>
-                    <hr>
-
-                    <div class="form-group has-feedback">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                            <input type="email" name="email" value="{{ user.email }}" required placeholder="email" class="form-control"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group has-feedback">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                            <input type="text" name="birthdate" autocomplete="off" value="{{ dateFormat user.birthdate 'DD/MM/YYYY' }}" required id="birthdate" placeholder="birthdate" class="form-control"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group has-feedback">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input type="text" name="username" value="{{ user.username }}" required placeholder="username"  class="form-control"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group has-feedback">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                            <input type="text" name="firstname" value="{{ user.firstName }}" required placeholder="firstName" class="form-control"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group has-feedback">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                            <input type="text" name="lastname" value="{{ user.lastName }}" required placeholder="lastName"  class="form-control"/>
-                        </div>
-                    </div>
-
-                    <br>
-
-                    <div class="form-group has-feedback">
-                        <div class="input-group ms-block">
-                            <span class="input-group-addon"><i class="fa fa-transgender"></i></span>
-                            <input type="text" name="gender" required id="gender" data-value="{{ user.gender }}" placeholder="gender" class="form-control"/>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div>
-                        <div class="loading"></div>
-                        <label for="description" id="label_description" class="hidden">Description</label>
-                        <textarea
-                                name="description" id="description" maxlength="100" minlength="10" required class="hidden tmce">
-                            {{ user.description }}
-                        </textarea>
-                    </div>
-                    <hr>
-                    <div class="input-group pull-right">
-                        <button id="register_btn" type="submit" class="btn btn-success" disabled >Editer</button>
-                    </div>
-                </form>
+            {{> user_side }}
+        </div>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <div>
+            {{> create_post}}
+            <hr>
+            <div class="panel panel-default">
+                {{> block_post}}
             </div>
         </div>
     </div>
-</div>
 
-{{#extends "style-block"}}
-    {{> _form_dist_style }}
-    <link rel="stylesheet" href="/js/dist/tapatar/tapatar.min.css">
-{{/extends}}
+</div>
 
 
 {{#extends "script-block"}}
 
     {{> _form_dist_script }}
-    <script src="/js/dist/spin.min.js"></script>
-    <script src="/js/dist/tapatar/tapatar.min.js"></script>
-    <script src="/js/dist/jquery.spin.js">
-    </script>
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=cn1efj5yt9is3cgztz4ljwsh7vor59brfuwst9ah96fcmc2b">
+    <script src="/js/dist/tinymce/tinymce.min.js?apiKey=cn1efj5yt9is3cgztz4ljwsh7vor59brfuwst9ah96fcmc2b">
     </script>
 
-    <script type="application/javascript" src="/js/users/edit.js">
+    <script type="application/javascript" src="/js/users/view.js">
     </script>
 {{/extends}}
