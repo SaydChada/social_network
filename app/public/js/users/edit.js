@@ -1,5 +1,3 @@
-let spinner = new Spinner().spin();
-
 $(function () {
 
     let currentLength = 0;

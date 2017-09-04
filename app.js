@@ -50,7 +50,7 @@ function init(routing, localConf){
     app.enable('view cache');
 
     // global vars
-    global.dbConnection = mongoose.connect(localConf.bdd.url());
+    global.dbConnection = mongoose.connect(localConf.bdd.url(), { useMongoClient: false });
     global.moment = require('moment');
     global.async  = require('async');
     global.crypto = require('crypto');

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div class="col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="panel-title text-center">{{ formTitle }}</div>
@@ -11,7 +11,7 @@
                         <input placeholder="avatar" type="hidden" value="{{ user.avatar }}" class="js-tapatar" name="avatar">
                     </div>
                     <hr>
-
+                    <label>Informations principales</label>
                     <div class="form-group has-feedback">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
@@ -47,8 +47,22 @@
                             <input type="text" name="lastname" value="{{ user.lastName }}" required placeholder="lastName"  class="form-control"/>
                         </div>
                     </div>
-
-                    <br>
+                    <hr>
+                    <label for="password">Changer mot de passe</label>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" name="oldpassword" placeholder="Ancien mot de passe" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" name="password" id="password" placeholder="Nouveau mot de passe" class="form-control"/>
+                            <span class="input-group-addon toggle-password"><i class="fa fa-eye"></i></span>
+                        </div>
+                    </div>
+                    <hr>
 
                     <div class="form-group has-feedback">
                         <div class="input-group ms-block">

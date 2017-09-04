@@ -40,15 +40,18 @@ class Users extends baseModel{
             }
         });
 
-        this.schema.plugin(passportLocalMongoose, {hashField : 'password'});
+        this.schema.plugin(passportLocalMongoose, {hashField : 'password', limitAttempts: true});
 
 
 
         this.schema.virtual('name')
             .get(function () {
-                return `${this.username} (${this.firstName} ${this.lastName})`;
+                if(this.username && this.firstName && this.lastName){
+                    return `${this.username} (${this.firstName} ${this.lastName})`;
+                }else{
+                    return undefined;
+                }
             });
-
 
         // Set default avatar if not set by user
         this.schema.post('init', function(doc) {
@@ -82,8 +85,6 @@ class Users extends baseModel{
 
         })
     }
-
-
 
 }
 

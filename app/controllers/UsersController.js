@@ -79,6 +79,7 @@ class UsersController extends baseController{
 
         this.viewVars.formTitle = 'Edtier mon profil';
         this.viewVars.pageTitle = 'Editer mon profil';
+        let data = {};
 
         async.waterfall([
 
@@ -94,7 +95,7 @@ class UsersController extends baseController{
 
                 if(this.req.method === 'POST') {
 
-                    let data = this.req.body;
+                    data = this.req.body;
                     let avatar = data.avatar;
                     delete data.avatar;
 
@@ -157,21 +158,45 @@ class UsersController extends baseController{
                         if(err){
                             done(err);
                         }else{
-                            this.viewVars.user = user;
-                            return this.res.redirect('view/' + user.username);
 
+                            if(data.oldpassword && data.password){
+                                done(null, user);
+                            }else{
+                                this.viewVars.user = user;
+                                this.viewVars.flashMessages.push(
+                                    {type: 'success',
+                                        message: 'Profil mis à jour'
+                                    }
+                                );
+                                return this.res.redirect('view/' + user.username);
+                            }
                         }
                     });
                 }else{
                     done();
                 }
+            },
+            (user, done) => {
+                // Update password if attempt
+                user.changePassword(data.oldpassword, data.password, (err, result) =>{
+                    if(err){
+                        done(err);
+                    }else{
+                        this.viewVars.flashMessages.push(
+                            {type: 'success',
+                                message: 'Profil et mot de passe mis à jours'
+                            }
+                        );
+                        return this.res.redirect('view/' + user.username);
+                    }
+                });
             }
 
         ], (err) => {
 
             console.log(err);
-            if (err) return next(err);
-            this.res.redirect('/users/edit');
+            this.viewVars.flashMessages.push({type: 'danger', message: 'Une erreur est survenue, veuillez ressayer'});
+            return this.res.redirect('/users/edit');
         });
 
     }
