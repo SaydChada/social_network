@@ -184,7 +184,11 @@ class baseController{
 
         switch(render){
             case 'json' :
-                let statusCode = data.statusCode || 200;
+                let statusCode =  200;
+                if(data && data.statusCode){
+                    statusCode = data.statusCode;
+                }
+
                 this.res.status(statusCode).json(data);
                 break;
             default :

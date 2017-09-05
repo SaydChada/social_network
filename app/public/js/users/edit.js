@@ -54,7 +54,7 @@ $(function () {
     });
 
     $('#gender').magicSuggest({
-        data: ['male', 'female'],
+        data: ['homme', 'femme'],
         maxSelection: 1,
         maxSuggestions: 2,
         allowFreeEntries: false,

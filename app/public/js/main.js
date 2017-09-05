@@ -28,6 +28,8 @@
         var $passwordInput = $(this).prev('input[name="password"]');
         var attr = $passwordInput.attr('type');
 
+        $(this).toggleClass('label-info');
+
         var toggleAttr = attr === 'password' ? 'text' : 'password';
         $passwordInput.attr('type', toggleAttr);
 

@@ -142,6 +142,7 @@
 }
 .chat_area {
     float: left;
+    background-color: #fff;
     height: 300px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -163,6 +164,7 @@
 }
 
 .chat-content{
+    color:black;
     word-break: break-all;
 }
 
