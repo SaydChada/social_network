@@ -15,7 +15,7 @@ module.exports = function (err, request, response, next) {
     response.statusCode = response.statusCode || 404;
 
     if(~[404, 500].indexOf(response.statusCode)){
-        response.status(response.statusCode).render("static/" + response.statusCode);
+        response.status(response.statusCode).render("static/" + response.statusCode, {user: request.user});
     }else{
         next();
     }
