@@ -31,6 +31,7 @@ class Comments extends baseModel{
             select: {
                 username: 1,
                 firstName: 1,
+                avatar : 1,
                 lastName: 1
             }
         }).exec(callback);
@@ -44,6 +45,7 @@ class Comments extends baseModel{
                 username: 1,
                 firstName: 1,
                 lastName: 1,
+                avatar: 1,
                 email: 1,
             }
         }).populate({
@@ -53,6 +55,7 @@ class Comments extends baseModel{
                 username: 1,
                 firstName: 1,
                 lastName: 1,
+                avatar: 1,
                 email: 1,
             }
         })
