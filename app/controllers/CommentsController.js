@@ -55,11 +55,12 @@ class CommentsController extends baseController{
                     let mailVars = {
                         username: comment.createdBy.username,
                         title : 'Nouveau commentaire',
+                        subjet: this.req.app.locals.website + ':: Nouveau commentaire',
                         from: this.req.app.locals.adminEmail,
-                        target: omment.targetUser.email
+                        target: comment.targetUser.email
                     };
 
-                    this.sendMailView('email/new_comment', mailVars, (err, response) => {
+                    this.sendMailView('email/newComment', mailVars, (err, response) => {
                         done(err,comment);
                     });
                 }else{
@@ -68,8 +69,9 @@ class CommentsController extends baseController{
 
             },
             (comment, done) => {
-                comment.layout = false;
-                this.app.render('users/partials/block_comment', comment,  (err, commentTemplate) => {
+                this.app.render('users/partials/block_comment',
+                    {comment: comment, layout: false, user: this.req.user},
+                    (err, commentTemplate) => {
                     data.templateComment = commentTemplate;
                     done(err);
                 });

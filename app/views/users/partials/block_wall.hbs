@@ -3,7 +3,7 @@
     <hr>
     <div id="bloc_comments">
         {{#each comments}}
-            {{> block_comment}}
+            {{> block_comment comment=this user=../user }}
         {{/each}}
     </div>
 </div>

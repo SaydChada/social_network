@@ -29,7 +29,7 @@ class Users extends baseModel{
             description : {type: String, min: 10, max: 100},
             preferences : Object,
             avatar      : String,
-            friends     : [Object],
+            friends     : Array,
             created     : { type: Date, default: Date.now }
         },{
             toObject: {

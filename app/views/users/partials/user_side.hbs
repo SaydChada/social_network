@@ -13,8 +13,12 @@
                  src="{{userData.avatar}}" width="150px" height="150px">
             {{#xif user.username '!==' userData.username }}
                 <div class="clearfix">
-                    <button type="button" id="add_friend" class="col-xs-12 btn btn-success">
-                        <i class="fa fa-address-card-o">&nbsp;</i> Ajouter en ami</button>
+                    <button
+                            type="button" id="add_friend" {{#if statusRequest }}disabled{{/if}}
+                            data-user-id="{{ userData._id }}"
+                            class="col-xs-12 btn {{ statusClass }}"
+                    >
+                        <i class="fa fa-address-card-o">&nbsp;</i> {{ statusText }}</button>
                 </div>
             {{/xif}}
 
@@ -42,16 +46,19 @@
             <hr>
             <h3><strong>Bio</strong></h3>
             <div class="text-break">{{{ userData.description }}} </div>
-            <hr>
-            <div>
-                <h3><strong>Recommender un ami</strong></h3>
-                <div class="input-group ms-block">
-                    <input type="text" class="form-control" placeholder="My friends...">
-                    <span class="input-group-btn">
+            {{#xif user.username '!==' userData.username }}
+                <hr>
+                <div>
+                    <h3><strong>Recommender un ami</strong></h3>
+                    <div class="input-group ms-block">
+                        <input type="text" class="form-control" placeholder="My friends...">
+                        <span class="input-group-btn">
                         <button id="submit_recommended_friend" class="btn btn-success" type="button">Ok</button>
                     </span>
+                    </div>
                 </div>
-            </div>
+            {{/xif}}
+
         </div>
     </div>
 </div>

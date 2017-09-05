@@ -20,6 +20,7 @@ class HomesController extends baseController{
         if(this.req.method ==='POST'){
             let data = this.req.body;
             data.title = 'Contact';
+            data.subjet = this.req.app.locals.website + ':: Contact';
             data.target = this.req.app.locals.adminEmail;
 
             this.sendMailView('email/contact', data, (err, response) => {

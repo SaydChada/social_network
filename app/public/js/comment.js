@@ -8,6 +8,7 @@ $(document).ready(function(){
         var targetId = $('#comment').data('target');
 
         if(rawComment === ''){
+            $(this).attr('disabled', true);
             return false;
         }else{
             $.ajax({
@@ -35,18 +36,16 @@ $(document).ready(function(){
                 }
             });
         }
-
-
     });
 
 
-    $('#remove_comment').on('click', function(e){
-        e.preventDefault();
+    // Delegate click to remove_comment element added or existing
+    // Handle delete of comment
+    $('#bloc_comments').on('click','.remove_comment', function(e){
 
         if(window.confirm('Confirmer la suppression?')){
 
-
-            let commentId = $(this).data('id');
+            let commentId = $(this).data('comment-id');
 
             $.ajax({
                 type: "DELETE",
@@ -59,7 +58,7 @@ $(document).ready(function(){
                     $('#nav').after($flash);
 
                     //Remove delete comment in dom
-                    var $blockComment = $('[data-id="'+ commentId +'"]').closest('.row');
+                    var $blockComment = $('[data-comment-id="'+ commentId +'"]').closest('.row');
                     $blockComment.remove();
 
                 },

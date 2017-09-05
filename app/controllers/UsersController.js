@@ -63,6 +63,21 @@ class UsersController extends baseController{
             }
 
             if(user){
+
+                // Check if user is in friend
+                this.viewVars.statusClass = 'btn-success';
+                this.viewVars.statusText  = 'Ajouter en ami';
+                this.viewVars.statusRequest = false;
+
+                this.req.user.friends.forEach((friend) =>{
+                    if(friend.userId === user._id.toString() && friend.status === 'invitation en cours'){
+                        this.viewVars.statusClass = 'btn-info';
+                        this.viewVars.statusText  = 'Demande en attente';
+                        this.viewVars.statusRequest = true;
+                    }
+                });
+
+
                 // Find user's posts
                 this.getModel('comments').findComments(user._id, (err, comments) => {
                     if(err){
@@ -70,6 +85,9 @@ class UsersController extends baseController{
                     }
                     this.viewVars.userData = user;
                     this.viewVars.comments = comments;
+
+                    // Inject current user in comments because
+
                     return this.render(this.view);
                 });
 
@@ -362,6 +380,7 @@ class UsersController extends baseController{
 
                     let mailVars = {
                         username: data.username,
+                        subject: this.req.app.locals.website + ':: Bienvenue',
                         title : 'Inscription sur ' + this.req.app.locals.website,
                         from: this.req.app.locals.adminEmail,
                         target: data.email
@@ -474,6 +493,7 @@ class UsersController extends baseController{
 
                 data.title = 'Mot de passe oublié';
                 data.from = this.req.app.locals.adminEmail;
+                data.subjet = this.req.app.locals.website + ':: Mot de passe oublié';
                 data.target = data.from;
                 data.link = this.req.headers.host + '/users/reset/' + token;
 
@@ -537,6 +557,7 @@ class UsersController extends baseController{
             (user, done) => {
                 let data = {};
                 data.title = 'Mot de passe changé';
+                data.subject = this.req.app.locals.website + ':: Mot de passe changé';
                 data.from = this.req.app.locals.adminEmail;
                 data.target = user.email;
 
