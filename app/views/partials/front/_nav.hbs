@@ -34,12 +34,12 @@
                             
                             {{#xif user.role '===' 'admin' }}
                                 <li {{#xif url '==' '/admins' }}class="active"{{/xif}}>
-                                    <a href="/admin" >Profil</a>
+                                    <a href="/admin" >Admin</a>
                                 </li>
                             {{/xif}}
 
-                            <li {{#xif url '==' '/users/profile' }}class="active"{{/xif}}>
-                                <a href="/users/profile" >Profil</a>
+                            <li {{#xif url '==' ( concat '/users/view/' user.username)  }}class="active"{{/xif}}>
+                                <a href="{{concat '/users/view/' user.username}}" >Profil</a>
                             </li>
                             <li {{#xif url '==' '/mails' }}class="active"{{/xif}}>
                                 <a href="/mails" >InMails</a>

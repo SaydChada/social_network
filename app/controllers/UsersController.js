@@ -13,20 +13,6 @@ class UsersController extends baseController{
 
     }
 
-    profileAction(){
-
-        this.viewVars.pageTitle = 'Mon profil';
-
-        this.model.getByUserName(this.req.user.username, (err, user) =>{
-            if(err){
-                throw err;
-            }
-
-            this.viewVars.userData = user;
-            return this.render('view');
-        });
-    }
-
     /**
      * Return json response based on query search
      * @param query

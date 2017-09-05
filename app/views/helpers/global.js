@@ -44,6 +44,9 @@ module.exports =  {
     'init' : function(name, value, context){
         this[name] = value;
     },
+    'concat' : function(v1, v2, options){
+        return v1+v2;
+    },
     'xif'   : function (v1, operator, v2, options) {
 
         switch (operator) {
