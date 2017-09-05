@@ -47,13 +47,13 @@ class FriendsController extends baseController{
 
         let newFriend = {
             userId      : requestUserId,
-            status      : 'en attente de confirmation',
+            status      : 'invitation en cours',
             requestAt   :  new Date(),
         };
 
         let newFriendRequest = {
             userId      : currentUserId,
-            status      : 'invitation en cours',
+            status      : 'en attente de confirmation',
             requestAt   :  new Date(),
         };
 
