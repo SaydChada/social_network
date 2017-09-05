@@ -1,0 +1,9 @@
+<div>
+    {{> add_comment}}
+    <hr>
+    <div id="bloc_comments">
+        {{#each comments}}
+            {{> block_comment}}
+        {{/each}}
+    </div>
+</div>

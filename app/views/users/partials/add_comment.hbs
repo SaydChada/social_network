@@ -1,12 +1,16 @@
 <div class="panel panel-default">
     <div class="panel-body">
-        <h4><strong><i class="fa fa-newspaper-o">&nbsp;</i><label for="new_post">Nouveau post</label></strong></h4>
+        <h4>
+            <strong>
+                <i class="fa fa-newspaper-o">&nbsp;</i><label for="comment">Nouveau commentaire :</label>
+            </strong>
+        </h4>
         <hr>
 
         <div class="form-group">
             <div>
                   <textarea
-                          name="description" id="new_post" maxlength="300" minlength="10" required class="hidden tmce">
+                          name="description" data-target="{{ userData._id }}" id="comment" maxlength="300" minlength="10" required class="hidden tmce">
             </textarea>
             </div>
         </div>
@@ -19,3 +23,11 @@
 
     </div>
 </div>
+
+{{#extends "script-block"}}
+
+    <script type="application/javascript">
+
+    </script>
+
+{{/extends}}

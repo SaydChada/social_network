@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-xs-2">
+        <div class="thumbnail img-responsive">
+            <img class="img-responsive user-photo" src="{{ this.createdBy.avatar }}">
+        </div>
+    </div>
+
+    <div class="col-xs-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>{{ createdBy.name}}</strong>
+                <span class="text-muted"> le {{ dateFormat this.created 'DD/MM/YYYY HH:mm' }}</span>
+                {{#xif user.username '===' createdBy.usnername}}
+                    <span>
+                    <button type="button" title="supprimer" data-id="{{ _id }}" class="btn btn-danger pull-right" id="remove_comment">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </span>
+                {{/xif}}
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body">
+                {{{ this.content }}}
+            </div>
+        </div>
+    </div>
+</div>

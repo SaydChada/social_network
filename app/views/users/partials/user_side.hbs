@@ -11,10 +11,13 @@
 
             <img alt="avatar-{{ userData.username }}" class="center-block thumbnail img-responsive"
                  src="{{userData.avatar}}" width="150px" height="150px">
-            <div class="clearfix">
-                <button type="button" id="add_friend" class="col-xs-12 btn btn-success">
-                    <i class="fa fa-address-card-o">&nbsp;</i> Ajouter en ami</button>
-            </div>
+            {{#xif user.username '!==' userData.username }}
+                <div class="clearfix">
+                    <button type="button" id="add_friend" class="col-xs-12 btn btn-success">
+                        <i class="fa fa-address-card-o">&nbsp;</i> Ajouter en ami</button>
+                </div>
+            {{/xif}}
+
             <hr>
             <div class="text-center">
                 <p><strong>Pseudo : </strong> {{ userData.username }}</p>

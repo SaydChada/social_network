@@ -5,13 +5,7 @@
         </div>
     </div>
     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-        <div>
-            {{> create_post}}
-            <hr>
-            <div class="panel panel-default">
-                {{> block_post}}
-            </div>
-        </div>
+        {{> block_wall }}
     </div>
 
 </div>
@@ -24,5 +18,7 @@
     </script>
 
     <script type="application/javascript" src="/js/users/view.js">
+    </script>
+    <script type="application/javascript" src="/js/comment.js">
     </script>
 {{/extends}}

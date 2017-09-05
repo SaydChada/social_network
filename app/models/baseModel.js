@@ -38,12 +38,19 @@ class baseModel{
         this.getMongooseModel().update(query, options, callback);
     }
 
-    insert(query, callback, options){
-        this.getMongooseModel().insert(query, callback);
+    insert(doc, callback, options){
+        let model = this.create(doc);
+        model.save(callback)
     }
 
     remove(query, callback){
         this.getMongooseModel().remove(query, callback);
+    }
+
+    create(doc){
+
+        doc = doc || {};
+        return new (this.getMongooseModel())(doc);
     }
 
 }

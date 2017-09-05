@@ -184,7 +184,8 @@ class baseController{
 
         switch(render){
             case 'json' :
-                this.res.json(data);
+                let statusCode = data.statusCode || 200;
+                this.res.status(statusCode).json(data);
                 break;
             default :
                 this.res.render(this.view , this.viewVars, (err, template) =>{

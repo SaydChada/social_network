@@ -56,16 +56,23 @@ class UsersController extends baseController{
 
         this.viewVars.pageTitle = 'Profil de ' + username;
 
+        // Find user by username
         this.model.getByUserName(username, (err, user) => {
             if(err){
                 throw err;
             }
 
             if(user){
+                // Find user's posts
+                this.getModel('comments').findComments(user._id, (err, comments) => {
+                    if(err){
+                        throw err;
+                    }
+                    this.viewVars.userData = user;
+                    this.viewVars.comments = comments;
+                    return this.render(this.view);
+                });
 
-                this.viewVars.userData = user;
-                console.log(user);
-                return this.render(this.view);
             }else{
                 //Profile not found end to 404
                 this.res.statusCode = 404;
