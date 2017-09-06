@@ -1,6 +1,6 @@
 (function($){
 
-    // Always enable socket
+    // Always enable socket client side
     var socket = io();
 
     /**

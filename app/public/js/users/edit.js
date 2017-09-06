@@ -58,6 +58,9 @@ $(function () {
         maxSelection: 1,
         maxSuggestions: 2,
         allowFreeEntries: false,
+        maxSelectionRenderer: function(value){
+            return null;
+        },
         value:  [$('#gender').data('value')],
         name: 'gender'
     });

@@ -23,28 +23,28 @@
                         <div class="input-group">
 
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                            <input type="text" name="birthdate" autocomplete="off" value="{{ dateFormat user.birthdate 'DD/MM/YYYY' }}" required id="birthdate" placeholder="birthdate" class="form-control"/>
+                            <input type="text" name="birthdate" autocomplete="off" value="{{ dateFormat user.birthdate 'DD/MM/YYYY' }}" required id="birthdate" placeholder="Date de naissance" class="form-control"/>
                         </div>
                     </div>
 
                     <div class="form-group has-feedback">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input type="text" name="username" value="{{ user.username }}" required placeholder="username"  class="form-control"/>
+                            <input type="text" name="username" value="{{ user.username }}" required placeholder="Pseudo"  class="form-control"/>
                         </div>
                     </div>
 
                     <div class="form-group has-feedback">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                            <input type="text" name="firstname" value="{{ user.firstName }}" required placeholder="firstName" class="form-control"/>
+                            <input type="text" name="firstname" value="{{ user.firstName }}" required placeholder="Prénom" class="form-control"/>
                         </div>
                     </div>
 
                     <div class="form-group has-feedback">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                            <input type="text" name="lastname" value="{{ user.lastName }}" required placeholder="lastName"  class="form-control"/>
+                            <input type="text" name="lastname" value="{{ user.lastName }}" required placeholder="Nom"  class="form-control"/>
                         </div>
                     </div>
                     <hr>
@@ -67,7 +67,7 @@
                     <div class="form-group has-feedback">
                         <div class="input-group ms-block">
                             <span class="input-group-addon"><i class="fa fa-transgender"></i></span>
-                            <input type="text" name="gender" required id="gender" data-value="{{ user.gender }}" placeholder="gender" class="form-control"/>
+                            <input type="text" name="gender" required id="gender" data-value="{{ user.gender }}" placeholder="Genre" class="form-control"/>
                         </div>
                     </div>
 

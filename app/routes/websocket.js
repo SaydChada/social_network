@@ -1,5 +1,5 @@
 "use strict";
-
+// SERVER SIDE
 const ws            = require('socket.io');
 const UserModel     = require('../models/Users').getMongooseModel();
 const CommentModel     = require('../models/Comments').getMongooseModel();
