@@ -51,40 +51,53 @@ $(document).ready(function(){
     // Handle delete of comment
     $('#bloc_comments').on('click','.remove_comment', function(e){
 
-        if(window.confirm('Confirmer la suppression?')){
+        var $that = $(this);
 
-            let commentId = $(this).data('comment-id');
-
-            $.ajax({
-                type: "DELETE",
-                url: '/comments/delete',
-                data: {id: commentId},
-                success: function(data, text){
-
-                    // display flash message
-                    var $flash = $(data.templateFlash);
-                    $('#nav').after($flash);
-
-                    //Remove delete comment in dom
-                    var $blockComment = $('[data-comment-id="'+ commentId +'"]').closest('.row');
-                    $blockComment.remove();
-                    socket.emit('removedComment')
-
+        bootbox.confirm({
+            message: "Confirmer suppression ami?",
+            buttons: {
+                cancel: {
+                    label: 'Annuler',
+                    className: 'btn-default'
                 },
-                error: function (request, status, error) {
-
-                    var data = request.responseJSON;
-                    // display flash message
-                    var $flash = $(data.templateFlash);
-                    $('#nav').after($flash);
+                confirm: {
+                    label: 'Oui',
+                    className: 'btn-success'
                 }
+            },
+            callback: function (result) {
+                console.log(result);
+                if(result){
+                    let commentId = $that.data('comment-id');
 
-            });
+                    $.ajax({
+                        type: "DELETE",
+                        url: '/comments/delete',
+                        data: {id: commentId},
+                        success: function(data, text){
 
-        }else{
-            return false;
-        }
+                            // display flash message
+                            var $flash = $(data.templateFlash);
+                            $('#nav').after($flash);
 
+                            //Remove delete comment in dom
+                            var $blockComment = $('[data-comment-id="'+ commentId +'"]').closest('.row');
+                            $blockComment.remove();
+                            socket.emit('removedComment')
+
+                        },
+                        error: function (request, status, error) {
+
+                            var data = request.responseJSON;
+                            // display flash message
+                            var $flash = $(data.templateFlash);
+                            $('#nav').after($flash);
+                        }
+
+                    });
+                }
+            }
+        });
 
     })
 });
