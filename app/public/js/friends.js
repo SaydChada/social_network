@@ -3,6 +3,9 @@ $(document).ready(function(){
     $('#add_friend').on('click', function(e){
         e.preventDefault();
 
+        var $that = $(this);
+        $that.attr('disabled', true);
+
         var addFriendBtn = this;
         $.ajax({
             type: "POST",
@@ -21,6 +24,7 @@ $(document).ready(function(){
             },
             error: function (request, status, error) {
 
+                $that.attr('disabled', false);
                 var data = request.responseJSON;
                 // display flash message
                 var $flash = $(data.templateFlash);

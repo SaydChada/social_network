@@ -74,6 +74,12 @@ module.exports = function(server, app){
             count_logged += 1;
             UserModel.update({ _id : user._id}, {$set : {socketId : client.id}},function(err){
             });
+
+            // Refreshing session
+            UserModel.findOne({_id : user._id}, (err, user) =>{
+                client.handshake.session.passport.user.friends = user.friends;
+                client.handshake.session.save();
+            });
         }
 
         counterLive(app, socketIo, client);
