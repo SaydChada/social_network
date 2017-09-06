@@ -8,6 +8,6 @@ module.exports = {
     env             : "dev",
     server          : require('./server'),
     website         : "LinkedCats",
-    adminEmail      : "contact@chadasaid.net",
+    adminEmail      : "chadasaid78@gmail.com",
     currentYear     : (new Date()).getFullYear()
 };
