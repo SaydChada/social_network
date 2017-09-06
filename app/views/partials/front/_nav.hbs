@@ -10,28 +10,13 @@
             <a class="navbar-brand" href="/">{{ website }}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse navbar-right">
-            <ul class="nav navbar-nav">
-                <li {{#xif url '==' '/homes/about' }}class="active"{{/xif}}>
-                    <a href="/homes/about">A propos</a>
-                </li>
-                <li {{#xif url '==' '/chat' }}class="active"{{/xif}}>
-                    <a href="/chat">Chat</a>
-                </li>
-                <li {{#xif url '==' '/homes/contact' }}class="active"{{/xif}}>
-                    <a href="/homes/contact">Contact</a>
-                </li>
-            </ul>
 
-    {{#if user }}
-          {{> front/_search_bar }}
-    {{/if}}
-
-            <ul class="nav navbar-nav navbar-left">
+            <ul class="nav navbar-nav navbar-right">
                 {{#if user }}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mon compte <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            
+
                             {{#xif user.role '===' 'admin' }}
                                 <li {{#xif url '==' '/admins' }}class="active"{{/xif}}>
                                     <a href="/admin" >Admin</a>
@@ -40,9 +25,6 @@
 
                             <li {{#xif url '==' ( concat '/users/view/' user.username)  }}class="active"{{/xif}}>
                                 <a href="{{concat '/users/view/' user.username}}" >Profil</a>
-                            </li>
-                            <li {{#xif url '==' '/mails' }}class="active"{{/xif}}>
-                                <a href="/mails" >InMails</a>
                             </li>
                             <li {{#xif url '==' '/friends' }}class="active"{{/xif}}>
                                 <a href="/friends" >Mes amis</a>
@@ -61,6 +43,22 @@
                     </li>
                 {{/if}}
             </ul>
-        </div><!--/.nav-collapse -->
-    </div><!--/.container-fluid -->
+
+            <ul class="nav navbar-nav navbar-right">
+                <li {{#xif url '==' '/homes/about' }}class="active"{{/xif}}>
+                    <a href="/homes/about">A propos</a>
+                </li>
+                <li {{#xif url '==' '/chat' }}class="active"{{/xif}}>
+                    <a href="/chat">Chat</a>
+                </li>
+                <li {{#xif url '==' '/homes/contact' }}class="active"{{/xif}}>
+                    <a href="/homes/contact">Contact</a>
+                </li>
+            </ul>
+
+    {{#if user }}
+          {{> front/_search_bar }}
+    {{/if}}
+        </div>
+    </div>
 </nav>

@@ -125,3 +125,7 @@ textarea {
 .navbar-collapse.in{
     overflow: inherit;
 }
+
+.navbar-brand{
+    padding: 20px 7px;
+}
