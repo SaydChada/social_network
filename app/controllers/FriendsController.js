@@ -107,7 +107,13 @@ class FriendsController extends baseController{
                     userModel.getMongooseModel().findOneAndUpdate(
                         {_id : this.req.user._id},
                         {$push: { friends: newFriend }},
+                        {new: true},
                         (err, sender) => {
+
+                            // Update friend in session
+                            this.req.user.friends = sender.friends;
+                            this.req.session.save();
+
                             done(err, sender, receiver);
                         })
                 },
