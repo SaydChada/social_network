@@ -1,6 +1,11 @@
 $(document).ready(function(){
 
-    var socket = io('/');
+    var socket = io('/comment');
+
+
+    socket.on('updateCounterComments', function(data){
+        $('#counter_comment_live').html($(data.template));
+    });
 
     $('#publish_btn').on('click', function(e){
         e.preventDefault();

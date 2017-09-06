@@ -27,10 +27,9 @@ $(document).ready(function(){
                             data: {userId : userId},
                             success: function(data) {
 
-                                console.log(data);
                                 $(that).attr('disabled', true);
                                 bootbox.dialog({
-                                    message: 'Vous êtes maintenant ami avec ' + data.username,
+                                    message: 'Demande d\'ami acceptée',
                                     title: "Bravo",
                                     buttons: {
                                         success: {
@@ -128,7 +127,7 @@ $(document).ready(function(){
 
                                 $(that).attr('disabled', true);
                                 bootbox.dialog({
-                                    message: 'Vous êtes maintenant ami avec %username%',
+                                    message: 'Recommandation acceptée',
                                     title: "Bravo",
                                     buttons: {
                                         success: {

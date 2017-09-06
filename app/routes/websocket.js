@@ -56,6 +56,28 @@ module.exports = function(server, app){
     socketIo.sockets.setMaxListeners(0);
 
 
+    let nsp = socketIo.of('/comment');
+    nsp.on('connection', (client) =>{
+
+        /**
+         * happen when comment is added
+         */
+        client.on('addedComment', function(){
+            count_commentAdded++;
+            counterLiveComment(app, nsp);
+
+        });
+
+        /**
+         * happen when comment is deleted
+         */
+        client.on('removedComment', function(){
+            count_commentAdded--;
+            counterLiveComment(app, nsp);
+        });
+
+    });
+
     // client aka socket : because more readable
     socketIo.on('connection', function (client) {
 
@@ -112,6 +134,20 @@ module.exports = function(server, app){
                 count_logged -= 1;
 
                 let user = client.handshake.session.passport.user;
+
+                // Refreshing session
+                UserModel.findOne({_id : user._id}, (err, user) =>{
+                    if(err){
+                        throw err;
+                    }
+                    if(user){
+                        client.handshake.session.passport.user.friends = user.friends;
+                        client.handshake.session.save();
+                    }
+
+
+                });
+
                 UserModel.update({_id : user._id}, {$set : {socketId : ''}}, function(err, count){
                     if(err){
                         throw err;

@@ -9,7 +9,7 @@ class UsersController extends baseController{
         this.viewDir = 'users';
 
         // Declare auth required views
-        this.authViews.user = ['profile', 'edit', 'search'];
+        this.authViews.user = ['profile', 'edit', 'search', 'view'];
 
     }
 
