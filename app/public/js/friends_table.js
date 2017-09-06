@@ -24,7 +24,7 @@ $(document).ready(function(){
                         $.ajax({
                             type: 'PUT',
                             url: '/friends/accept',
-                            data: {targetUserId : userId},
+                            data: {userId : userId},
                             success: function(data) {
 
                                 $(that).attr('disabled', true);
@@ -122,7 +122,7 @@ $(document).ready(function(){
                         $.ajax({
                             type: 'PUT',
                             url: '/friends/accept',
-                            data: {targetUserId : userId},
+                            data: {userId : userId},
                             success: function(data) {
 
                                 $(that).attr('disabled', true);

@@ -78,7 +78,7 @@ class FriendsController extends baseController{
 
                     // Target user invitation
                     let newFriendRequest = {
-                        userId      : this.req.user._id,
+                        userId      : this.req.user._id.toString(),
                         status      : 'en attente de confirmation',
                         username    : this.req.user.username,
                         requestAt   :  new Date(),
@@ -171,7 +171,7 @@ class FriendsController extends baseController{
         let userModel = this.getModel('users');
         let userToAccept = this.req.body.userId;
 
-        userModel.update({_id: this.req.user._id, 'friends.$.userId' : userToAccept},
+        userModel.update({_id: this.req.user._id, 'friends.$.userId' : userToAccept.toString()},
             {$set : {'friends.$.status' : 'confirmé'}},
             (err, result) => {
                 if(err){
@@ -180,7 +180,7 @@ class FriendsController extends baseController{
                     throw err;
                 }
 
-                userModel.update({_id: userToAccept, 'friends.$.userId': this.req.user._id},
+                userModel.update({_id: userToAccept, 'friends.$.userId': this.req.user._id.toString()},
                     {$set : {'friends.$.status' : 'confirmé'}},
                     (err, result) => {
                         if(err){
@@ -224,8 +224,9 @@ class FriendsController extends baseController{
         let userModel = this.getModel('users');
         let userToRemove = this.req.body.userId;
 
-        userModel.update({_id: this.req.user._id, 'friends.$.userId' : userToRemove},
-            { $pull: { 'friends': { userId : userToRemove } } },
+
+        userModel.update({_id: this.req.user._id, 'friends.$.userId' : userToRemove.toString()},
+            { $pull: { 'friends': { userId : userToRemove.toString() } } },
             (err, result) => {
                 if(err){
                     data.err = 'Internal error server';
@@ -233,7 +234,7 @@ class FriendsController extends baseController{
                     throw err;
                 }
 
-                userModel.update({_id: userToRemove}, {$pull : {'friends' : {userId : this.req.user._id}}},
+                userModel.update({_id: userToRemove}, {$pull : {'friends' : {userId : this.req.user._id.toString()}}},
                     (err, result) => {
                         if(err){
                             data.err = 'Internal error server';
@@ -308,8 +309,8 @@ class FriendsController extends baseController{
 
                     // Recommended user data
                     let targetFriend = {
-                        userId        : currentUser._id,
-                        recommendedBy : this.req.user._id,
+                        userId        : currentUser._id.toString(),
+                        recommendedBy : this.req.user._id.toString(),
                         recommendedByUsername : this.req.user.username,
                         status        : 'recommandé',
                         username      : currentUser.username,
@@ -318,8 +319,8 @@ class FriendsController extends baseController{
 
                     // Target of recommendation
                     let newRecommendation = {
-                        userId        : targetUser._id,
-                        recommendedBy : this.req.user._id,
+                        userId        : targetUser._id.toString(),
+                        recommendedBy : this.req.user._id.toString(),
                         recommendedByUsername : this.req.user.username,
                         status        : 'invitation en cours',
                         username      : targetUser.username,
