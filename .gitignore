@@ -6,3 +6,4 @@ npm-debug.log
 /conf/mail.js
 !/app/public/uploads/
 /app/public/uploads/*/
+/rs.pem
