@@ -26,13 +26,24 @@ class FriendsController extends baseController{
                 console.log(err);
             }
 
-            this.viewVars.confirmed     = data[0] || [];
-            this.viewVars.received      = data[1] || [];
-            this.viewVars.sent          = data[2] || [];
-            this.viewVars.recommended   = data[3] || [];
+            data.forEach(( statusList ) =>{
 
+                switch(statusList._id){
+                    case 'confirmé':
+                        this.viewVars.confirmed     = statusList;
+                        break;
+                    case 'invitation en cours':
+                        this.viewVars.sent          = statusList;
+                        break;
+                    case 'recommandé':
+                        this.viewVars.recommended   = statusList;
+                        break;
+                    case 'en attente de confirmation':
+                        this.viewVars.received      = statusList;
+                        break;
+                }
 
-            console.log(this.viewVars);
+            } );
 
             this.viewVars.pageTitle = 'mes amis';
             this.render(this.view);
