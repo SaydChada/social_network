@@ -15,6 +15,8 @@ function init(routing, localConf){
     const cookieParser   = require('cookie-parser');
     const bodyParser     = require('body-parser');
     const passport       = require('passport');
+    const nodemailer = require('nodemailer');
+    const ses            = require('nodemailer-ses-transport');
     const LocalStrategy  = require('passport-local').Strategy;
     const path           = require('path');
     const methodOverride = require('method-override');
@@ -82,11 +84,17 @@ function init(routing, localConf){
     passport.serializeUser(localConf.passport.serializeStrategy);
     passport.deserializeUser(localConf.passport.serializeStrategy);
 
-// Mailer configuration
-    if(localConf.mail){
-        const nodemailer = require('nodemailer');
+
+    // Mailer configuration
+    if(localConf.mail.service === 'Gmail'){
         global.mailTransporter = nodemailer.createTransport(localConf.mail);
+    }else{
+        global.mailTransporter = nodemailer.createTransport(ses({
+            accessKeyId:  localConf.mail.accessKeyId,
+            secretAccessKey: localConf.mail.secretAccessKey
+        }));
     }
+
 
 
     /**
