@@ -1,4 +1,3 @@
-{{dump data._id}}
 <div class="table-responsive">
     <table class="table text-center">
         <thead>
@@ -22,9 +21,7 @@
                    {{/if}}
                </td>
                <td>
-                   <button class="btn btn-success">
-                      {{ ../data._id }}
-                   </button>
+                   {{{ getTemplateBtnFriend ../data._id userId }}}
                </td>
            </tr>
        {{/each}}

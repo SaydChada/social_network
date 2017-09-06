@@ -158,9 +158,9 @@ class FriendsController extends baseController{
         }
 
         let userModel = this.getModel('users');
-        let userToRemove = this.req.body.userId;
+        let userToAccept = this.req.body.userId;
 
-        userModel.update({_id: this.req.user._id, 'friends.$.userId' : userToRemove},
+        userModel.update({_id: this.req.user._id, 'friends.$.userId' : userToAccept},
             {$set : {'friends.$.status' : 'confirmé'}},
             (err, result) => {
                 if(err){
@@ -169,7 +169,7 @@ class FriendsController extends baseController{
                     throw err;
                 }
 
-                userModel.update({_id: userToRemove, 'friends.$.userId': this.req.user._id},
+                userModel.update({_id: userToAccept, 'friends.$.userId': this.req.user._id},
                     {$set : {'friends.$.status' : 'confirmé'}},
                     (err, result) => {
                         if(err){
@@ -214,7 +214,7 @@ class FriendsController extends baseController{
         let userToRemove = this.req.body.userId;
 
         userModel.update({_id: this.req.user._id, 'friends.$.userId' : userToRemove},
-            {$unset : {'friends.$' : ''}},
+            { $pull: { 'friends': { userId : userToRemove } } },
             (err, result) => {
                 if(err){
                     data.err = 'Internal error server';
@@ -222,7 +222,7 @@ class FriendsController extends baseController{
                     throw err;
                 }
 
-                userModel.update({_id: userToRemove, 'friends.$.userId': this.req.user._id}, {$unset : {'friends.$' : ''}},
+                userModel.update({_id: userToRemove}, {$pull : {'friends' : {userId : this.req.user._id}}},
                     (err, result) => {
                         if(err){
                             data.err = 'Internal error server';

@@ -50,6 +50,36 @@ module.exports =  {
     'toJSON' : function(obj, options){
         return (typeof obj === 'object') ? JSON.stringify(obj) : obj;
     },
+    'getTemplateBtnFriend' : function(status, userId, options){
+
+        let btnDisabled = '';
+        let bootstrapBtnCls, btnCls, label;
+        switch(status){
+            case 'confirmé' :
+                btnCls = 'delete_friend';
+                label = '<i title="supprimer" class="fa fa-trash">&nbsp;</i>';
+                bootstrapBtnCls = 'danger';
+                break;
+            case 'invitation en cours' :
+                btnCls = '';
+                label = 'En attente';
+                bootstrapBtnCls = 'default';
+                btnDisabled = 'disabled';
+                break;
+            case 'recommandé' :
+                btnCls = 'accept_reject_recommendation';
+                label = 'Accepter / Refuser';
+                bootstrapBtnCls = 'warning';
+                break;
+            case 'en attente de confirmation' :
+                btnCls="accept_reject_invitation";
+                label = 'Accepter / Refuser';
+                bootstrapBtnCls = 'warning';
+                break;
+        }
+        return `<button class="btn btn-${bootstrapBtnCls} ${btnCls}" ${btnDisabled} data-user-id="${userId}">${label}</button>`;
+
+    },
     'xif'   : function (v1, operator, v2, options) {
 
         switch (operator) {
