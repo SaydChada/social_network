@@ -1,21 +1,41 @@
 <div class="panel with-nav-tabs panel-default">
     <div class="panel-heading">
         <ul class="nav nav-tabs">
-            <li class=""><a href="#list_friends" data-toggle="tab">Mes amis</a></li>
+            <li class="active"><a href="#list_friends" data-toggle="tab">Mes amis</a></li>
             <li class=""><a href="#pending_friends" data-toggle="tab">Demandes en attente</a></li>
-            <li class="active"><a href="#recommended_friends" data-toggle="tab">Recommendations</a></li>
+            <li class=""><a href="#request_friends" data-toggle="tab">Invitations reçues</a></li>
+            <li class=""><a href="#recommended_friends" data-toggle="tab">Recommendations</a></li>
         </ul>
     </div>
     <div class="panel-body">
         <div class="tab-content">
             <div class="tab-pane fade active in" id="list_friends">
-                {{> friends}}
+                {{#if confirmed}}
+                    {{> friends data=confirmed}}
+                {{else}}
+                    <p>Pas d'amis</p>
+                {{/if}}
             </div>
             <div class="tab-pane fade" id="pending_friends">
-                {{ pending_friends }}
+                {{#if sent}}
+                    {{> friends data=sent}}
+                {{else}}
+                    <p>Pas d'invitation envoyées</p>
+                {{/if}}
+            </div>
+            <div class="tab-pane fade" id="request_friends">
+                {{#if received}}
+                    {{> friends data=received}}
+                {{else}}
+                    <p>Pas d'invitation reçues</p>
+                {{/if}}
             </div>
             <div class="tab-pane fade" id="recommended_friends">
-                {{recommended_friends}}
+                {{#if recommended}}
+                    {{> friends data=recommended}}
+                {{else}}
+                    <p>Pas de recommendation</p>
+                {{/if}}
             </div>
         </div>
     </div>

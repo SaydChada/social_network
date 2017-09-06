@@ -26,14 +26,19 @@ class FriendsController extends baseController{
                 console.log(err);
             }
 
-            this.viewVars.confirmed = data[0];
-            this.viewVars.received = data[1];
-            this.viewVars.sent = data[2];
-            this.viewVars.recommended = data[3];
+            this.viewVars.confirmed     = data[0] || [];
+            this.viewVars.received      = data[1] || [];
+            this.viewVars.sent          = data[2] || [];
+            this.viewVars.recommended   = data[3] || [];
+
+
+            console.log(this.viewVars);
+
+            this.viewVars.pageTitle = 'mes amis';
+            this.render(this.view);
+
         });
 
-        this.viewVars.pageTitle = 'mes amis';
-        this.render(this.view);
     }
 
     /**

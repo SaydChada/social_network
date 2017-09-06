@@ -1,21 +1,33 @@
-<table data-toggle="table">
-    <thead>
-    <tr>
-        <th>Item ID</th>
-        <th>Item Name</th>
-        <th>Item Price</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>1</td>
-        <td>Item 1</td>
-        <td>$1</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Item 2</td>
-        <td>$2</td>
-    </tr>
-    </tbody>
-</table>
+{{dump data._id}}
+<div class="table-responsive">
+    <table class="table text-center">
+        <thead>
+        <tr>
+            <th class="text-center">Pseudo</th>
+            <th class="text-center">Date de la demande</th>
+            <th class="text-center">Recommandé par </th>
+            <th class="text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+       {{#each data.users}}
+           <tr>
+               <td><a href="/users/view/{{ username }}">{{ username }}</a></td>
+               <td>{{ dateFormat requestAt 'DD/MM/YYYY HH:mm' }}</td>
+               <td>
+                   {{#if recommendedByUsername }}
+                       {{ recommendedByUsername }}
+                   {{else}}
+                       -
+                   {{/if}}
+               </td>
+               <td>
+                   <button class="btn btn-success">
+                      {{ ../data._id }}
+                   </button>
+               </td>
+           </tr>
+       {{/each}}
+        </tbody>
+    </table>
+</div>
