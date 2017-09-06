@@ -351,16 +351,26 @@ class FriendsController extends baseController{
      */
     confirmedlistAction(){
 
-        //TODO in ms front send dataUrlParams: { usersFriends }
-        // then ignore users already in the user list before return data
-
         let userModel = this.getModel('users');
+
+        let query =  this.req.body.query;
+        query = new RegExp('^' + query, 'gi');
+
+        let currentUserFriends = this.req.body.currentFriends;
+        let ignoreIds = [];
+
+        if(currentUserFriends && currentUserFriends instanceof Array){
+            ignoreIds = currentUserFriends.map(function(friend){
+                return friend.userId;
+            });
+        }
+
 
         userModel.getMongooseModel().aggregate([
             {$match: { username: this.req.user.username} },
             {$project: { _id: 1, 'friends.username': 1, 'friends.userId' : 1, 'friends.status' : 1 } },
             {$unwind : '$friends'},
-            {$match: {'friends.status' : 'confirmé'}},
+            {$match: {'friends.username' : query, 'friends.status' : 'confirmé', 'friends.userId' : {$nin : ignoreIds}}},
             {$sort: {'friends.username' : 1}},
             {$group: {'_id': '$_id', 'confirmedFriends': {$push: '$friends'}}}
 
@@ -375,6 +385,7 @@ class FriendsController extends baseController{
             if(data[0] && data[0].confirmedFriends){
                 returnData = data[0].confirmedFriends;
             }
+
 
             this.render(null, returnData, 'json');
         });

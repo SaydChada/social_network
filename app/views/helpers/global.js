@@ -47,6 +47,9 @@ module.exports =  {
     'concat' : function(v1, v2, options){
         return v1+v2;
     },
+    'toJSON' : function(obj, options){
+        return (typeof obj === 'object') ? JSON.stringify(obj) : obj;
+    },
     'xif'   : function (v1, operator, v2, options) {
 
         switch (operator) {

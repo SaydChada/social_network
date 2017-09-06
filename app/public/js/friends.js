@@ -30,16 +30,18 @@ $(document).ready(function(){
     });
 
 
+
+    var userCurrentFriends = $('#my_friends').data('current-friends');
     var magicSearchUser = $('#my_friends').magicSuggest({
         maxDropHeight: 200,
         placeholder: 'Proposer un ami',
         data: '/friends/confirmedlist/',
+        dataUrlParams : {currentFriends : userCurrentFriends},
         displayField: ['username'],
         valueField: 'userId',
-        method: 'get',
+        method: 'post',
         hideTrigger: true,
         maxSelection: 1,
-        useZebraStyle: true,
         typeDelay: 200,
         autoSelect: false,
         noSuggestionText: '',
