@@ -6,7 +6,7 @@ class FriendsController extends baseController{
         super(req, res, next, app);
         this.viewDir = 'friends';
 
-        this.authViews.user = ['index', 'add', 'delete', 'recommend', 'delete', 'confirmed'];
+        this.authViews.user = ['index', 'add', 'delete', 'recommend', 'delete', 'confirmed', 'confirmedlist'];
     }
 
     indexAction(){
@@ -26,6 +26,7 @@ class FriendsController extends baseController{
                 console.log(err);
             }
 
+            console.log(data);
             data.forEach(( statusList ) =>{
 
                 switch(statusList._id){
@@ -44,6 +45,8 @@ class FriendsController extends baseController{
                 }
 
             } );
+
+            console.log(this.viewVars);
 
             this.viewVars.pageTitle = 'mes amis';
             this.render(this.view);
@@ -401,6 +404,7 @@ class FriendsController extends baseController{
         query = new RegExp('^' + query, 'gi');
 
         let currentUserFriends = this.req.body.currentFriends;
+        let targetUserId = this.req.body.targetUserId;
         let ignoreIds = [];
 
         if(currentUserFriends && currentUserFriends instanceof Array){
@@ -408,6 +412,9 @@ class FriendsController extends baseController{
                 return friend.userId;
             });
         }
+
+        //ignore current user id, he can't be friend with himself
+        ignoreIds.push(targetUserId);
 
 
         userModel.getMongooseModel().aggregate([
@@ -429,16 +436,10 @@ class FriendsController extends baseController{
             if(data[0] && data[0].confirmedFriends){
                 returnData = data[0].confirmedFriends;
             }
-
-
             this.render(null, returnData, 'json');
         });
 
     }
-
-
-
-
 }
 
 module.exports = FriendsController;

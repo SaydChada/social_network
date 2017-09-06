@@ -6,7 +6,8 @@
         <div id="counter_comment_live" class="col-xs-4 text-center">
         </div>
         <div class="col-xs-4 text-right">
-            <span class="soft-gray-bg">© {{ website }} - {{ currentYear }}</span>
+            <span class="soft-gray-bg">© {{ website }} - {{ currentYear }}
+                {{#if user.username}} &nbsp; - &nbsp; bienvenue &nbsp; <strong class="text-warning">{{user.username}} </strong>{{/if}}</span>
         </div>
     </div>
 </footer>

@@ -36,11 +36,13 @@ $(document).ready(function(){
 
 
     var userCurrentFriends = $('#my_friends').data('current-friends');
+    var targetUserId        =  $('#submit_recommended_friend').data('current-user-id');
+
     var magicSearchUser = $('#my_friends').magicSuggest({
         maxDropHeight: 200,
         placeholder: 'Proposer un ami',
         data: '/friends/confirmedlist/',
-        dataUrlParams : {currentFriends : userCurrentFriends},
+        dataUrlParams : {currentFriends : userCurrentFriends, targetUserId : targetUserId},
         displayField: ['username'],
         valueField: 'userId',
         method: 'post',
