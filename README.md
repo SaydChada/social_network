@@ -1,7 +1,6 @@
+![screenshot](https://github.com/SaydChada/social_network/blob/master/LinkedCats.png)
 
 Social network made during my training as JavaScript full stack dev at Ifocop
-
-![screenshot](https://github.com/SaydChada/social_network/blob/master/LinkedCats.png)
 
 
 # Requirements
