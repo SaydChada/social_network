@@ -352,7 +352,7 @@ class FriendsController extends baseController{
     /**
      * Ajax method handle list in confirmed user
      */
-    confirmedAction(){
+    confirmedlistAction(){
 
         let userModel = this.getModel('users');
 
@@ -370,9 +370,13 @@ class FriendsController extends baseController{
                 throw (err);
             }
 
-            data = data[0];
+           let returnData = [];
 
-            this.render(null, data, 'json');
+            if(data[0] && data[0].confirmedFriends){
+                returnData = data[0].confirmedFriends;
+            }
+
+            this.render(null, returnData, 'json');
         });
 
     }

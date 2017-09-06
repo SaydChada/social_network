@@ -1,5 +1,5 @@
 <div class="panel-body">
-    <div class="media">
+    <div>
         <div>
             {{#xif user.username '===' userData.username }}
                 <div class="clearfix">
@@ -71,7 +71,7 @@
                     <div>
                         <h3><strong>Recommender un ami</strong></h3>
                         <div class="input-group ms-block">
-                            <input type="text" class="form-control" placeholder="My friends...">
+                            <input type="text" id="my_friends" class="form-control" placeholder="Mes amis...">
                             <span class="input-group-btn">
                         <button id="submit_recommended_friend" class="btn btn-success" type="button">Ok</button>
                     </span>

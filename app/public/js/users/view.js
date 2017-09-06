@@ -44,7 +44,40 @@ $(document).ready(function(e){
         $('.mce-path').html(
             '<p"> Minimum ' + minChars + ' charactères, maximum ' + maxChars + '.' +
             '&nbsp;<span id="totalChars">(' + currentLength + '/' + maxChars +')</span></p> ');
+    });
 
+
+    var magicSearchUser = $('#my_friends').magicSuggest({
+        maxDropHeight: 200,
+        placeholder: 'Chercher un utilisateur',
+        data: '/friends/confirmedlist/',
+        displayField: ['username'],
+        method: 'get',
+        hideTrigger: true,
+        maxSelection: 1,
+        useZebraStyle: true,
+        typeDelay: 200,
+        autoSelect: false,
+        noSuggestionText: '',
+        allowFreeEntries: false,
+        maxSelectionRenderer: function(value){
+            return null;
+        }
+    });
+
+    // MS EVENT
+
+    $(magicSearchUser).on('keydown', function(event, that, key){
+        console.log(key.keyCode);
+        if( key.keyCode === 13){
+            return false;
+        }
+
+    });
+
+    $(magicSearchUser).on('selectionchange', function(event, that, selection){
+
+        that.setSelection([]);
     });
 
 });
