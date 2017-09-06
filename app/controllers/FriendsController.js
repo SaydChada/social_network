@@ -240,8 +240,6 @@ class FriendsController extends baseController{
     //recommend
     recommendAction(){
 
-
-
         // Init response data object
         let data = {
             templateFlash : null,
@@ -263,7 +261,7 @@ class FriendsController extends baseController{
                     // Target user invitation
                     let newFriendRequest = {
                         userId      : this.req.user._id,
-                        status      : 'en attente de confirmation',
+                        status      : 'recommandé',
                         userName    : this.req.user.username,
                         requestAt   :  new Date(),
                     };

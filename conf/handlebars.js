@@ -11,6 +11,8 @@ module.exports = {
         './app/views/partials/',
         './app/views/friends/partials/',
         './app/views/users/partials/',
+        './app/views/partials/front/',
+
     ],
     layoutsDir      : './app/views/layouts/',
     defaultLayout   : 'frontLayout'

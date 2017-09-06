@@ -56,10 +56,15 @@ class UsersController extends baseController{
                 this.viewVars.statusRequest = false;
 
                 this.req.user.friends.forEach((friend) =>{
-                    if(friend.userId === user._id.toString() && friend.status === 'invitation en cours'){
-                        this.viewVars.statusClass = 'btn-info';
-                        this.viewVars.statusText  = 'Demande en attente';
-                        this.viewVars.statusRequest = true;
+                    if(friend.userId === user._id.toString()){
+
+                        if(friend.status === 'confirmé'){
+                            this.viewVars.isMyFriend = true;
+                        }else{
+                            this.viewVars.statusClass = 'btn-info';
+                            this.viewVars.statusText  = 'Demande en attente';
+                            this.viewVars.statusRequest = true;
+                        }
                     }
                 });
 

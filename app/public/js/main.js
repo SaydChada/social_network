@@ -10,6 +10,10 @@
         $('#counter_live').html($(data.template));
     });
 
+    socket.on('updateCounterComments', function(data){
+        $('#counter_comment_live').html($(data.template));
+    });
+
 
     /**
      * Overide fn.size for magicsuggest

@@ -23,11 +23,37 @@ body {
     background-image: url('/img/background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+    padding-bottom: 1%;
+
 }
 
 textarea {
     resize: vertical;
 }
+
+.panel>.panel-heading:after,.panel>.panel-heading:before{
+
+    position: absolute;
+    top: 10%;
+    left: -22px;
+    width: 35px;
+    content: " ";
+    border-color: transparent;
+    border-style: solid solid outset;
+    pointer-events: none;
+}
+
+.panel>.panel-heading:after{
+    border-width:7px;
+    border-right-color: #494952;
+    margin-top:1px;
+    margin-left:2px;
+}
+.panel>.panel-heading:before{
+    border-right-color:#ddd;
+    border-width:8px;
+}
+
 
 
 /* ==========================================================================

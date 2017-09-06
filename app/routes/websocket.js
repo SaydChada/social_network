@@ -2,11 +2,12 @@
 
 const ws            = require('socket.io');
 const UserModel     = require('../models/Users').getMongooseModel();
+const CommentModel     = require('../models/Comments').getMongooseModel();
 
 let count_logged= 0;
 let count_anonymous = 0;
 
-
+let count_commentAdded = 0;
 
 function counterLive(app, io, client){
 
@@ -28,6 +29,24 @@ function counterLive(app, io, client){
 
 }
 
+
+function counterLiveComment(app, io, client){
+
+    let dataTemplate = {
+        totalComments : count_commentAdded,
+        layout: false
+    };
+
+    // Get template to send to all other clients
+    app.render('partials/front/_counter_comments', dataTemplate,  function(err, hbsTemplate){
+        if(err){
+            throw err;
+        }
+        io.emit('updateCounterComments', { template : hbsTemplate });
+    });
+
+}
+
 module.exports = function(server, app){
 
     console.log('--- SOCKET ENABLED ---');
@@ -41,6 +60,11 @@ module.exports = function(server, app){
     socketIo.on('connection', function (client) {
 
 
+        CommentModel.count({}, (err, result) => {
+            count_commentAdded = result;
+        });
+
+
         // ONly available for logged in users
         if(!client.handshake.session.passport){
             count_anonymous += 1;
@@ -48,12 +72,29 @@ module.exports = function(server, app){
             // Save socketId in database
             let user = client.handshake.session.passport.user;
             count_logged += 1;
-            //TODO comme on refresh le socket change à chaques fois inutile de le save
             UserModel.update({ _id : user._id}, {$set : {socketId : client.id}},function(err){
             });
         }
 
         counterLive(app, socketIo, client);
+        counterLiveComment(app, socketIo);
+
+        /**
+         * happen when comment is added
+         */
+        client.on('addedComment', function(){
+            count_commentAdded++;
+            counterLiveComment(app, socketIo);
+
+        });
+
+        /**
+         * happen when comment is deleted
+         */
+        client.on('removedComment', function(){
+            count_commentAdded--;
+            counterLiveComment(app, socketIo);
+        });
 
         /**
          * When user leave

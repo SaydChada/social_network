@@ -12,32 +12,51 @@
             <img alt="avatar-{{ userData.username }}" class="center-block thumbnail img-responsive"
                  src="{{userData.avatar}}" width="150px" height="150px">
             {{#xif user.username '!==' userData.username }}
-                <div class="clearfix">
-                    <button
-                            type="button" id="add_friend" {{#if statusRequest }}disabled{{/if}}
-                            data-user-id="{{ userData._id }}"
-                            class="col-xs-12 btn {{ statusClass }}"
-                    >
-                        <i class="fa fa-address-card-o">&nbsp;</i> {{ statusText }}</button>
-                </div>
+                {{#xif isMyFriend '!==' true}}
+                    <div class="clearfix">
+                        <button
+                                type="button" id="add_friend" {{#if statusRequest }}disabled{{/if}}
+                                data-user-id="{{ userData._id }}"
+                                class="col-xs-12 btn {{ statusClass }}"
+                        >
+                            <i class="fa fa-address-card-o">&nbsp;</i> {{ statusText }}</button>
+                    </div>
+                {{else}}
+                    <div class="clearfix">
+                        <button
+                                type="button" id="remove_friend"
+                                data-user-id="{{ userData._id }}"
+                                class="col-xs-12 btn btn-danger"
+                        >
+                            <i class="fa fa-address-card-o">&nbsp;</i> Retirer ami
+                        </button>
+                    </div>
+                {{/xif}}
+
             {{/xif}}
 
             <hr>
-            <div class="text-center">
-                <p><strong>Pseudo : </strong> {{ userData.username }}</p>
-                <p><strong>Nom : </strong> {{ userData.firstName }}</p>
-                <p><strong>Prénom : </strong> {{ userData.lastName }}</p>
+            <div >
+                {{#if isMyFriend}} <p class="text-center"> <span class="label label-warning" >Ami</span></p> {{/if}}
+                <p><strong>Pseudo : </strong> <span class="pull-right"> {{ userData.username }} </span></p>
+                <p><strong>Nom : </strong> <span class="pull-right"> {{ userData.firstName }} </span></p>
+                <p><strong>Prénom : </strong> <span class="pull-right">  {{ userData.lastName }} </span></p>
                 <p><strong>Né(e) le : </strong>
-                    <br>
-                    {{ dateFormat userData.birthdate  'DD MMMM YYYY'}} ({{ dateToYears userData.birthdate }} ans)
+                    <span class="pull-right">
+                        {{ dateFormat userData.birthdate  'DD MMMM YYYY'}} ({{ dateToYears userData.birthdate }} ans)
+                    </span>
                 </p>
-                <p><strong>Incrit(e) le : </strong> <br>{{ dateFormat userData.created  'DD MMMM YYYY'}}</p>
+                <p><strong>Incrit(e) le : </strong>
+                    <span class="pull-right">
+                        {{ dateFormat userData.created  'DD MMMM YYYY'}}
+                    </span>
+                </p>
 
                 <p><strong>Genre : </strong>
                     {{#xif userData.gender '===' 'homme'}}
-                        <span title="homme" class="label label-info"><i class="fa fa-mars"></i></span>
+                        <span title="homme" class="label label-info pull-right"><i class="fa fa-mars"></i></span>
                     {{else}}
-                        <span title="femme" class="label label-danger"><i class="fa fa-venus"></i></span>
+                        <span title="femme" class="label label-danger pull-right"><i class="fa fa-venus"></i></span>
                     {{/xif}}
                 </p>
             </div>
@@ -47,16 +66,18 @@
             <h3><strong>Bio</strong></h3>
             <div class="text-break">{{{ userData.description }}} </div>
             {{#xif user.username '!==' userData.username }}
-                <hr>
-                <div>
-                    <h3><strong>Recommender un ami</strong></h3>
-                    <div class="input-group ms-block">
-                        <input type="text" class="form-control" placeholder="My friends...">
-                        <span class="input-group-btn">
+                {{#xif isMyFriend '===' true}}
+                    <hr>
+                    <div>
+                        <h3><strong>Recommender un ami</strong></h3>
+                        <div class="input-group ms-block">
+                            <input type="text" class="form-control" placeholder="My friends...">
+                            <span class="input-group-btn">
                         <button id="submit_recommended_friend" class="btn btn-success" type="button">Ok</button>
                     </span>
+                        </div>
                     </div>
-                </div>
+                {{/xif}}
             {{/xif}}
 
         </div>

@@ -2,7 +2,6 @@ $(document).ready(function(e){
 
     var minChars, maxChars;
 
-    console.log('tinymce');
     tinymce.init({
         selector: '.tmce',
         invalid_elements : "script",

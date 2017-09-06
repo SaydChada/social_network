@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    var socket = io('/');
+
     $('#publish_btn').on('click', function(e){
         e.preventDefault();
         var rawComment = $.trim(tinyMCE.get('comment').getContent({format: 'text'}));
@@ -25,6 +27,7 @@ $(document).ready(function(){
                     // append block comment to comments section
                     var $blockComment = $(data.templateComment);
                     $('#bloc_comments').prepend($blockComment);
+                    socket.emit('addedComment');
 
                 },
                 error: function (request, status, error) {
@@ -60,6 +63,7 @@ $(document).ready(function(){
                     //Remove delete comment in dom
                     var $blockComment = $('[data-comment-id="'+ commentId +'"]').closest('.row');
                     $blockComment.remove();
+                    socket.emit('removedComment')
 
                 },
                 error: function (request, status, error) {
