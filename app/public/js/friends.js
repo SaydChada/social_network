@@ -44,7 +44,7 @@ $(document).ready(function(){
         maxSelection: 1,
         typeDelay: 200,
         autoSelect: false,
-        noSuggestionText: '',
+        noSuggestionText: 'Aucun ami à proposer! ',
         allowFreeEntries: false,
         maxSelectionRenderer: function(value){
             return null;
@@ -55,30 +55,42 @@ $(document).ready(function(){
     $('#submit_recommended_friend').on('click', function(e){
         e.preventDefault();
 
+        $(this).attr('disabled', true);
+
         var msValue = magicSearchUser.getValue();
-        if(!msValue){
+        if(!msValue || !(msValue instanceof Array)){
             return false;
         }
+
+        var currentUserId = $(this).data('current-user-id');
         var userId = msValue[0];
         $.ajax({
             type: "POST",
             url: '/friends/recommend',
-            data: {target : userId},
+            data: {targetUserId : userId, currentUserId : currentUserId},
             success: function(data, text){
 
+                console.log(data);
                 // display flash message
                 var $flash = $(data.templateFlash);
                 $('#nav').after($flash);
 
                 // clean selection
                 magicSearchUser.setSelection([]);
+
+                // enable submit
+                $(this).attr('disabled', false);
             },
             error: function (request, status, error) {
+
+                console.log(request);
 
                 var data = request.responseJSON;
                 // display flash message
                 var $flash = $(data.templateFlash);
                 $('#nav').after($flash);
+                $(this).attr('disabled', true);
+
             }
         });
 

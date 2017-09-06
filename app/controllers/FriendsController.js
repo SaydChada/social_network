@@ -211,27 +211,27 @@ class FriendsController extends baseController{
         userModel.update({_id: this.req.user._id, 'friends.$.userId' : userToRemove},
             {$unset : {'friends.$' : ''}},
             (err, result) => {
-            if(err){
-                data.err = 'Internal error server';
-                data.statusCode = 500;
-                throw err;
-            }
+                if(err){
+                    data.err = 'Internal error server';
+                    data.statusCode = 500;
+                    throw err;
+                }
 
-            userModel.update({_id: userToRemove, 'friends.$.userId': this.req.user._id}, {$unset : {'friends.$' : ''}},
-                (err, result) => {
-                    if(err){
-                        data.err = 'Internal error server';
-                        data.statusCode = 500;
-                        throw err;
-                    }
+                userModel.update({_id: userToRemove, 'friends.$.userId': this.req.user._id}, {$unset : {'friends.$' : ''}},
+                    (err, result) => {
+                        if(err){
+                            data.err = 'Internal error server';
+                            data.statusCode = 500;
+                            throw err;
+                        }
 
-                    let flashMessage = {type : 'success', message: 'Ami retiré'};
-                    let templateData = {flashMessages : [flashMessage], layout : false};
-                    this.app.render('partials/flash_messages', templateData, (err, flashTemplate) => {
-                        data.templateFlash = flashTemplate;
-                        return this.render(null, data, 'json');
-                    });
-                })
+                        let flashMessage = {type : 'success', message: 'Ami retiré'};
+                        let templateData = {flashMessages : [flashMessage], layout : false};
+                        this.app.render('partials/flash_messages', templateData, (err, flashTemplate) => {
+                            data.templateFlash = flashTemplate;
+                            return this.render(null, data, 'json');
+                        });
+                    })
 
             });
 
@@ -242,15 +242,6 @@ class FriendsController extends baseController{
      * @returns {*}
      */
     recommendAction(){
-
-        // Find userId recommended
-
-        //check if not already in users friends
-
-        // if not add it with following info
-
-        // else display error msg
-
 
         // Init response data object
         let data = {
@@ -265,65 +256,100 @@ class FriendsController extends baseController{
             return this.render(null, data, 'json');
         }
 
+        // Init vars
+        // here currentUser is not session user, he's the target of the recommendation
+        let currentUID = this.req.body.currentUserId ;
+        let targetUID = this.req.body.targetUserId;
         let userModel = this.getModel('users');
+        let fieldUser = {username: 1, lastName: 1, firstName: 1, email: 1};
+        let currentUser, targetUser;
 
         async.waterfall([
                 (done) => {
+                    // Find currentUID
+                    userModel.findOne({_id : currentUID}, (err, cUser) => {
+                        if(err){
+                            done(err);
+                        }
+                        currentUser = cUser;
 
-                    // Target user invitation
-                    let newFriendRequest = {
-                        userId        : this.req.body.target,
-                        recommendedBy : this.req.user._id,
-                        status        : 'recommandé',
-                        userName      : this.req.user.username,
-                        requestAt     :  new Date(),
-                    };
+                        // and targetUID
+                        userModel.findOne({_id: targetUID},(err, tUser) => {
+                            if(err){
+                                done(err);
+                            }
+                            targetUser = tUser;
 
-                    userModel.getMongooseModel().findOneAndUpdate(
-                        {_id : this.req.body.target},
-                        {$push: { friends: newFriendRequest }},
-                        (err, receiver) => {
-                            done(err, receiver);
-                        })
-                },
-                (receiver, done) => {
-
-                    // Request invitation
-                    let newFriend = {
-                        userId      : this.req.body.target,
-                        status      : 'invitation en cours',
-                        username    : receiver.username,
-                        requestAt   :  new Date(),
-                    };
-
-                    userModel.getMongooseModel().findOneAndUpdate(
-                        {_id : this.req.user._id},
-                        {$push: { friends: newFriend }},
-                        (err, sender) => {
-                            done(err, sender, receiver);
-                        })
-                },
-                (sender, receiver, done) => {
-
-                    console.log('SENDER' , sender);
-                    console.log('RECEIVER' , receiver);
-                    let mailVars = {
-                        senderUser: sender,
-                        receiverUser : receiver,
-                        subject: this.req.app.locals.website + ':: Demande ami',
-                        title : 'Nouvelle demande d\'ami',
-                        from: this.req.app.locals.adminEmail,
-                        target: receiver.email
-                    };
-
-                    this.sendMailView('email/requestFriend', mailVars, (err, response) => {
-                        done(err);
-                    });
-
+                            done();
+                        }, fieldUser);
+                    }, fieldUser);
                 },
                 (done) => {
 
-                    let flashMessage = {type : 'success', message: 'Demande d\'ami envoyée'};
+
+
+                    // Recommended user data
+                    let targetFriend = {
+                        userId        : currentUser._id,
+                        recommendedBy : this.req.user._id,
+                        recommendedByUsername : this.req.user.username,
+                        status        : 'recommandé',
+                        userName      : currentUser.username,
+                        requestAt     :  new Date(),
+                    };
+
+                    // Target of recommendation
+                    let newRecommendation = {
+                        userId        : targetUser._id,
+                        recommendedBy : this.req.user._id,
+                        recommendedByUsername : this.req.user.username,
+                        status        : 'invitation en cours',
+                        userName      : targetUser.username,
+                        requestAt     :  new Date(),
+                    };
+
+                    // Add friend to both recommended user and target or recom
+                    userModel.update(
+                        {_id : currentUser._id},
+                        {$push: { friends: newRecommendation }},
+                        (err, count) => {
+                            if(err){
+                                done(err);
+                            }
+
+                            userModel.update(
+                                {_id : targetUser._id},
+                                {$push: { friends: targetFriend }},
+                                (err, count) => {
+                                    if (err) {
+                                        done(err);
+                                    }
+
+                                    done();
+                                });
+                        })
+                },
+                (done) => {
+
+                    let mailVars = {
+                        senderUser          : currentUser,
+                        receiverUser        : targetUser,
+                        recommenderUser     : this.req.user,
+                        subject             : this.req.app.locals.website + ':: Recommendation ami',
+                        title               : 'Nouvelle recommandation d\'ami',
+                        from                : this.req.app.locals.adminEmail,
+                        target              : currentUser.email
+                    };
+
+                    // Send email to target of recomm
+                    this.sendMailView('email/friendRecommandation', mailVars, (err, response) => {
+                        done(err);
+                    });
+                },
+                (done) => {
+
+                    // Done with success show flash message
+                    let flashMessage = {type : 'success', message: 'Recommandation d\'ami envoyée'};
                     let templateData = {flashMessages : [flashMessage], layout : false};
                     this.app.render('partials/flash_messages', templateData, (err, flashTemplate) => {
                         data.templateFlash = flashTemplate;
@@ -333,10 +359,11 @@ class FriendsController extends baseController{
             ],
             (err) => {
 
+                // error durring waterfall async workflow display error
                 console.log(err);
                 data.statusCode = 500;
                 data.err = err;
-                let flashMessage = {type : 'danger', message: 'Erreur,impossible d\'ajouter ami!'};
+                let flashMessage = {type : 'danger', message: 'Erreur,impossible de recommander ami!'};
                 let templateData = {flashMessages : [flashMessage], layout : false};
                 this.app.render('partials/flash_messages', templateData, (err, flashTemplate) => {
                     data.templateFlash = flashTemplate;
@@ -380,7 +407,7 @@ class FriendsController extends baseController{
                 throw (err);
             }
 
-           let returnData = [];
+            let returnData = [];
 
             if(data[0] && data[0].confirmedFriends){
                 returnData = data[0].confirmedFriends;
