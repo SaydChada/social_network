@@ -110,8 +110,6 @@ class FriendsController extends baseController{
                 },
                 (sender, receiver, done) => {
 
-                    console.log('SENDER' , sender);
-                    console.log('RECEIVER' , receiver);
                     let mailVars = {
                         senderUser: sender,
                         receiverUser : receiver,
@@ -171,7 +169,7 @@ class FriendsController extends baseController{
         let userModel = this.getModel('users');
         let userToAccept = this.req.body.userId;
 
-        userModel.update({_id: this.req.user._id, 'friends.$.userId' : userToAccept.toString()},
+        userModel.update({_id: this.req.user._id, 'friends.userId' : userToAccept},
             {$set : {'friends.$.status' : 'confirmé'}},
             (err, result) => {
                 if(err){
@@ -180,7 +178,7 @@ class FriendsController extends baseController{
                     throw err;
                 }
 
-                userModel.update({_id: userToAccept, 'friends.$.userId': this.req.user._id.toString()},
+                userModel.update({_id: userToAccept, 'friends.userId': this.req.user._id},
                     {$set : {'friends.$.status' : 'confirmé'}},
                     (err, result) => {
                         if(err){
@@ -225,7 +223,7 @@ class FriendsController extends baseController{
         let userToRemove = this.req.body.userId;
 
 
-        userModel.update({_id: this.req.user._id, 'friends.$.userId' : userToRemove.toString()},
+        userModel.update({_id: this.req.user._id, 'friends.userId' : userToRemove.toString()},
             { $pull: { 'friends': { userId : userToRemove.toString() } } },
             (err, result) => {
                 if(err){
