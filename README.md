@@ -14,7 +14,7 @@ Social network made during my training as JavaScript full stack dev at Ifocop
 - again in terminal run this command "npm start"
 - now you can access the project, enjoy.
 
-### Technical stack
+# Technical stack
 
 LinkedCats uses a number of open source projects to work properly:
 
