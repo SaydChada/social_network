@@ -118,6 +118,10 @@ textarea {
     position:absolute;
 }
 
+.ms-sel-item{
+    padding: 5px !important;
+}
+
 .navbar-collapse.in{
     overflow: inherit;
 }

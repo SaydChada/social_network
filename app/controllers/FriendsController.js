@@ -237,8 +237,20 @@ class FriendsController extends baseController{
 
     }
 
-    //recommend
+    /**
+     * Ajax handler method recommend friend
+     * @returns {*}
+     */
     recommendAction(){
+
+        // Find userId recommended
+
+        //check if not already in users friends
+
+        // if not add it with following info
+
+        // else display error msg
+
 
         // Init response data object
         let data = {
@@ -260,10 +272,11 @@ class FriendsController extends baseController{
 
                     // Target user invitation
                     let newFriendRequest = {
-                        userId      : this.req.user._id,
-                        status      : 'recommandé',
-                        userName    : this.req.user.username,
-                        requestAt   :  new Date(),
+                        userId        : this.req.body.target,
+                        recommendedBy : this.req.user._id,
+                        status        : 'recommandé',
+                        userName      : this.req.user.username,
+                        requestAt     :  new Date(),
                     };
 
                     userModel.getMongooseModel().findOneAndUpdate(
@@ -331,28 +344,15 @@ class FriendsController extends baseController{
                 });
 
             });
-
-        // Find userId recommended
-
-        //check if not already in users friends
-
-        // if not add it with following info
-
-        // else display error msg
-
-        let newFriendRequest = {
-            userId      : this.req.body.userId,
-            status      : 'recommandé',
-            userName    : this.req.user.username,
-            requestAt   :  new Date(),
-        };
-
     }
 
     /**
      * Ajax method handle list in confirmed user
      */
     confirmedlistAction(){
+
+        //TODO in ms front send dataUrlParams: { usersFriends }
+        // then ignore users already in the user list before return data
 
         let userModel = this.getModel('users');
 
