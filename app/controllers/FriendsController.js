@@ -64,7 +64,7 @@ class FriendsController extends baseController{
                     let newFriendRequest = {
                         userId      : this.req.user._id,
                         status      : 'en attente de confirmation',
-                        userName    : this.req.user.username,
+                        username    : this.req.user.username,
                         requestAt   :  new Date(),
                     };
 
@@ -266,6 +266,10 @@ class FriendsController extends baseController{
 
         async.waterfall([
                 (done) => {
+
+                    //TODO improvement, to prevent multiple time same reco
+                    // check if friends.userId not in friends's user list
+
                     // Find currentUID
                     userModel.findOne({_id : currentUID}, (err, cUser) => {
                         if(err){
@@ -286,15 +290,13 @@ class FriendsController extends baseController{
                 },
                 (done) => {
 
-
-
                     // Recommended user data
                     let targetFriend = {
                         userId        : currentUser._id,
                         recommendedBy : this.req.user._id,
                         recommendedByUsername : this.req.user.username,
                         status        : 'recommandé',
-                        userName      : currentUser.username,
+                        username      : currentUser.username,
                         requestAt     :  new Date(),
                     };
 
@@ -304,7 +306,7 @@ class FriendsController extends baseController{
                         recommendedBy : this.req.user._id,
                         recommendedByUsername : this.req.user.username,
                         status        : 'invitation en cours',
-                        userName      : targetUser.username,
+                        username      : targetUser.username,
                         requestAt     :  new Date(),
                     };
 

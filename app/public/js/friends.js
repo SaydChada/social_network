@@ -55,7 +55,8 @@ $(document).ready(function(){
     $('#submit_recommended_friend').on('click', function(e){
         e.preventDefault();
 
-        $(this).attr('disabled', true);
+        var $submitRecoBtn = $(this);
+        $submitRecoBtn.attr('disabled', true);
 
         var msValue = magicSearchUser.getValue();
         if(!msValue || !(msValue instanceof Array)){
@@ -69,8 +70,6 @@ $(document).ready(function(){
             url: '/friends/recommend',
             data: {targetUserId : userId, currentUserId : currentUserId},
             success: function(data, text){
-
-                console.log(data);
                 // display flash message
                 var $flash = $(data.templateFlash);
                 $('#nav').after($flash);
@@ -79,17 +78,15 @@ $(document).ready(function(){
                 magicSearchUser.setSelection([]);
 
                 // enable submit
-                $(this).attr('disabled', false);
+                $submitRecoBtn.attr('disabled', false);
             },
             error: function (request, status, error) {
-
-                console.log(request);
 
                 var data = request.responseJSON;
                 // display flash message
                 var $flash = $(data.templateFlash);
                 $('#nav').after($flash);
-                $(this).attr('disabled', true);
+                $submitRecoBtn.attr('disabled', false);
 
             }
         });
