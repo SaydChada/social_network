@@ -18,7 +18,7 @@ $(function () {
 
             ed.on('init', function(e){
                 currentLength =  $(ed.getBody()).text().length;
-                $('#register_btn').prop('disabled', false);
+                // $('#register_btn').prop('disabled', false);
             });
 
             ed.on('keyUp', function(e){
