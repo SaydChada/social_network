@@ -31,3 +31,26 @@ LinkedCats uses a number of open source projects to work properly:
 * [multer](https://github.com/expressjs/multer) - Upload image and more
 * [nodemailer](https://nodemailer.com) - Email sanding made easier
 * [passport](http://passportjs.org/) - Authentication midleware
+
+## Folder Structure
+
+Project's folder structure:
+
+```
+rs/
+  README.md
+  node_modules/
+  package.json      
+  index.js          => app startup point
+  routing.js        => load app routing
+  app.js            => main app third part configuration 
+  conf.js           => here all app config file are loaded
+  conf/             => config loaded in config.js
+  middlewares/      => custom middleware
+  app/
+    controller/     => custom controller 
+    models/         => mongoose models
+    public/         => public folder
+    routes/         => app routing
+    views/          => contain app views
+```
